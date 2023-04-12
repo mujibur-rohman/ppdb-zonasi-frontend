@@ -6,6 +6,8 @@ import AuthAdmin from "./pages/admin/Auth";
 import Home from "./pages/siswa/Home";
 import Layouts from "./pages/siswa/components/Layouts";
 import Pendaftar from "./pages/siswa/Pendaftar";
+import HomeAdmin from "./pages/admin/HomeAdmin";
+import LayoutAdmin from "./pages/admin/components/LayoutAdmin";
 
 function App() {
   return (
@@ -17,7 +19,8 @@ function App() {
             <Route path="pendaftar" element={<Pendaftar />} />
           </Route>
           <Route path="/auth" element={<Auth />} />
-          <Route path="/admin">
+          <Route path="/admin" element={<LayoutAdmin />}>
+            <Route index element={<HomeAdmin />} />
             <Route path="auth" element={<AuthAdmin />} />
           </Route>
         </Routes>
