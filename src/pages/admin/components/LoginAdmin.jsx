@@ -2,6 +2,8 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Input } from "@mantine/core";
+import { Auth } from "../../../config/authServices";
+import { toast } from "react-hot-toast";
 
 const LoginAdmin = () => {
   const formik = useFormik({
@@ -11,11 +13,9 @@ const LoginAdmin = () => {
     },
     validateOnChange: false,
     onSubmit: async (values) => {
-      try {
-        console.log(values);
-      } catch (error) {
-        console.log(error);
-      }
+      console.log(values);
+      const user = await Auth.Login(values.email, values.password);
+      console.log(user);
     },
     validationSchema: yup.object({
       email: yup.string().email().required("Email is a required field").trim(),
@@ -45,6 +45,7 @@ const LoginAdmin = () => {
             error={formik.errors.password}
           >
             <Input
+              type="password"
               id="password"
               onChange={formik.handleChange}
               name="password"
@@ -55,7 +56,7 @@ const LoginAdmin = () => {
           </Input.Wrapper>
         </div>
         <Button type="primary" className="rounded-md" variant="filled">
-          Sign In
+          {formik.isSubmitting ? "Loading" : "Sign In"}
         </Button>
       </form>
     </div>
