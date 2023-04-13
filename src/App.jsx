@@ -6,13 +6,13 @@ import AuthAdmin from "./pages/admin/Auth";
 import Home from "./pages/siswa/Home";
 import Layouts from "./pages/siswa/components/Layouts";
 import Pendaftar from "./pages/siswa/Pendaftar";
-import HomeAdmin from "./pages/admin/HomeAdmin";
 import LayoutAdmin from "./pages/admin/components/LayoutAdmin";
 import { Toaster } from "react-hot-toast";
 import AuthContext from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/admin/Dashboard";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
             {/* Private Admin */}
             <Route element={<ProtectedRoute role={[0, 1]} />}>
               <Route path="/admin" element={<LayoutAdmin />}>
-                <Route index element={<HomeAdmin />} />
+                <Route index element={<Dashboard />} />
               </Route>
             </Route>
             <Route element={<PrivateRoute />}>

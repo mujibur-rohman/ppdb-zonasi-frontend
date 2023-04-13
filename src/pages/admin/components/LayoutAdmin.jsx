@@ -13,10 +13,10 @@ const LayoutAdmin = () => {
     { name: "Users", link: "/admin/user", icon: FaUsers },
   ];
   return (
-    <section className="flex gap-6 min-h-screen">
+    <section className="flex min-h-screen">
       <Sidebar />
-      <div className="m-3 text-xl text-gray-900 font-semibold">
-        REACT TAILWIND
+      <div className="text-xl text-gray-900 font-semibold w-full">
+        <nav className="shadow h-12 sticky top-0 left-0 right-0 z-50 backdrop-blur bg-white/75"></nav>
         <Outlet />
       </div>
     </section>
