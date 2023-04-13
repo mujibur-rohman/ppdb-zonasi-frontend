@@ -10,6 +10,9 @@ import HomeAdmin from "./pages/admin/HomeAdmin";
 import LayoutAdmin from "./pages/admin/components/LayoutAdmin";
 import { Toaster } from "react-hot-toast";
 import AuthContext from "./context/AuthContext";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import PrivateRoute from "./routes/PrivateRoute";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -25,10 +28,17 @@ function App() {
             </Route>
             <Route path="/auth" element={<Auth />} />
             {/* Private Admin */}
-            <Route path="/admin" element={<LayoutAdmin />}>
-              <Route element={<HomeAdmin />} />
+            <Route element={<ProtectedRoute role={[0, 1]} />}>
+              <Route path="/admin" element={<LayoutAdmin />}>
+                <Route index element={<HomeAdmin />} />
+              </Route>
             </Route>
-            <Route path="/admin/auth" element={<AuthAdmin />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="/admin/auth" element={<AuthAdmin />} />
+            </Route>
+
+            {/* Not Found */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthContext>
       </BrowserRouter>

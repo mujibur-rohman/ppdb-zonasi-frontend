@@ -3,6 +3,7 @@ import { MdOutlineDashboard, MdWebhook } from "react-icons/md";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaUsers } from "react-icons/fa";
 import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
 
 const LayoutAdmin = () => {
   const menus = [
@@ -16,35 +17,7 @@ const LayoutAdmin = () => {
       <Sidebar />
       <div className="m-3 text-xl text-gray-900 font-semibold">
         REACT TAILWIND
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
-        <div className="text-3xl">dd</div>
+        <Outlet />
       </div>
     </section>
   );

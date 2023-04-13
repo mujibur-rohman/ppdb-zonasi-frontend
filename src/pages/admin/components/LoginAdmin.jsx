@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, Input } from "@mantine/core";
 import { Auth } from "../../../config/authServices";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { AuthProvider } from "../../../context/AuthContext";
 
 const LoginAdmin = () => {
+  const navigate = useNavigate();
+  const { setUser } = useContext(AuthProvider);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -13,9 +17,11 @@ const LoginAdmin = () => {
     },
     validateOnChange: false,
     onSubmit: async (values) => {
-      console.log(values);
       const user = await Auth.Login(values.email, values.password);
-      console.log(user);
+      if (user) {
+        setUser(user);
+        navigate("/admin");
+      }
     },
     validationSchema: yup.object({
       email: yup.string().email().required("Email is a required field").trim(),

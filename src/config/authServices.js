@@ -1,6 +1,5 @@
 import { toast } from "react-hot-toast";
 import axiosInstance from "./axiosInstance";
-import Cookies from "js-cookie";
 
 export const authEndPoint = "/auth";
 
@@ -15,9 +14,6 @@ export const Auth = {
         },
         { withCredentials: true }
       );
-      //   if (user) {
-      //     Cookies.set("accessToken", user.data.token.accessToken);
-      //   }
       return user.data;
     } catch (error) {
       console.log(error);
@@ -29,7 +25,11 @@ export const Auth = {
   Me: async () => {
     try {
       const me = await axiosInstance.get("/me", { withCredentials: true });
-      return me.data;
+      if (me) {
+        return me.data.user;
+      } else {
+        return null;
+      }
     } catch (error) {
       console.log(error);
     }
