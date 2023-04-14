@@ -7,5 +7,5 @@ export const MENUS_SIDEBAR = [
   { name: "Pendaftar", link: "/admin/pendaftar", icon: AiOutlineUser },
   { name: "Hasil Pengumuman", link: "/admin/pengumuman", icon: AiOutlineUser },
   { name: "Jurusan", link: "/admin/jurusan", icon: MdWebhook },
-  { name: "Users", link: "/admin/user", icon: FaUsers },
+  { name: "Users", link: "/admin/users", icon: FaUsers },
 ];

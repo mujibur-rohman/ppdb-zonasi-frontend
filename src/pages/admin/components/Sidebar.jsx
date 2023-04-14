@@ -30,6 +30,7 @@ const Sidebar = () => {
       <div className="mt-4 flex flex-col gap-3 relative">
         {MENUS_SIDEBAR.map((menu, i) => (
           <NavLink
+            end
             to={menu?.link}
             key={i}
             className={`group flex items-center text-md hover:text-white gap-3.5 font-medium p-2 pr-7 hover:bg-blue-600 rounded-md`}

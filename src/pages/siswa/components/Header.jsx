@@ -1,4 +1,4 @@
-import { Avatar, Button, Menu, Tabs, Text } from "@mantine/core";
+import { Avatar, Menu, Tabs } from "@mantine/core";
 import {
   MdKeyboardArrowDown,
   MdPermIdentity,

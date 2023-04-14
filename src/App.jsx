@@ -13,6 +13,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/admin/Dashboard";
+import Users from "./pages/admin/Users";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route element={<ProtectedRoute role={[0, 1]} />}>
               <Route path="/admin" element={<LayoutAdmin />}>
                 <Route index element={<Dashboard />} />
+                <Route path="users" element={<Users />} />
               </Route>
             </Route>
             <Route element={<PrivateRoute />}>
