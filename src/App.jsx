@@ -13,7 +13,7 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/admin/Dashboard";
-import Users from "./pages/admin/Users";
+import Users from "./pages/admin/Users/Users";
 
 function App() {
   return (

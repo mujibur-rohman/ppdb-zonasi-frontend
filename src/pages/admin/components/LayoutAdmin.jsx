@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { MdKeyboardArrowDown, MdLogout, MdPermIdentity } from "react-icons/md";
 import Sidebar from "./Sidebar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Avatar, Menu } from "@mantine/core";
+import Cookies from "js-cookie";
 
 const LayoutAdmin = () => {
+  const navigate = useNavigate();
   return (
     <section className="flex min-h-screen bg-slate-50">
       <Sidebar />
-      <div className="text-xl text-gray-900 font-semibold w-full">
+      <div className="text-xl text-gray-900 w-full">
         <nav className="shadow h-12 sticky top-0 left-0 right-0 z-50 backdrop-blur flex items-center justify-end px-4 bg-white/75">
           <Avatar color="cyan" radius="xl">
             MK
@@ -29,10 +31,16 @@ const LayoutAdmin = () => {
               </Menu.Item>
               <Menu.Item
                 icon={<MdLogout className="w-5 h-5" />}
-                href="https://mantine.dev"
                 target="_blank"
               >
-                Logout
+                <div
+                  onClick={() => {
+                    Cookies.remove("accessToken");
+                    navigate("/admin/auth");
+                  }}
+                >
+                  Logout
+                </div>
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>

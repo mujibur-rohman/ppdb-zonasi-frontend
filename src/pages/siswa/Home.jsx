@@ -52,22 +52,26 @@ const Home = () => {
               </Accordion.Control>
               <Accordion.Panel>
                 <table className="flex flex-col gap-3">
-                  <tr>
-                    <td className="md:w-36 w-28 font-medium">Kuota</td>
-                    <td>6</td>
-                  </tr>
-                  <tr>
-                    <td className="md:w-36 w-28 font-medium">Pendaftar</td>
-                    <td>6</td>
-                  </tr>
-                  <tr>
-                    <td className="md:w-36 w-28 font-medium">Kualifikasi</td>
-                    <td>6</td>
-                  </tr>
-                  <tr>
-                    <td className="md:w-36 w-28 font-medium">Diskualifikasi</td>
-                    <td>6</td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td className="md:w-36 w-28 font-medium">Kuota</td>
+                      <td>6</td>
+                    </tr>
+                    <tr>
+                      <td className="md:w-36 w-28 font-medium">Pendaftar</td>
+                      <td>6</td>
+                    </tr>
+                    <tr>
+                      <td className="md:w-36 w-28 font-medium">Kualifikasi</td>
+                      <td>6</td>
+                    </tr>
+                    <tr>
+                      <td className="md:w-36 w-28 font-medium">
+                        Diskualifikasi
+                      </td>
+                      <td>6</td>
+                    </tr>
+                  </tbody>
                 </table>
               </Accordion.Panel>
             </Accordion.Item>
