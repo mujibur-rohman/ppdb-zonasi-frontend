@@ -43,8 +43,8 @@ const Users = () => {
         <AddForm close={close} mutateUsers={mutate} />
       </Modal>
       <section className="bg-white shadow-md p-3 rounded">
-        <div className="p-4 flex justify-between items-center">
-          <h3 className="font-bold text-2xl hidden md:block">List Of Users</h3>
+        <div className="p-4 flex flex-col md:flex-row md:justify-between items-start md:items-center">
+          <h3 className="font-bold text-2xl">List Of Users</h3>
           <Button
             color="teal"
             onClick={open}
@@ -54,7 +54,7 @@ const Users = () => {
             Tambah Users
           </Button>
         </div>
-        <div className="flex font-normal items-center justify-between py-3">
+        <div className="flex flex-col md:flex-row font-normal md:items-center md:justify-between py-3">
           <Select
             size="xs"
             label="Rows"
