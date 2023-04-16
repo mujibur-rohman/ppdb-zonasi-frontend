@@ -1,12 +1,4 @@
-import {
-  Button,
-  Input,
-  Modal,
-  Pagination,
-  Select,
-  Table,
-  Tabs,
-} from "@mantine/core";
+import { Button, Input, Modal, Pagination, Select, Tabs } from "@mantine/core";
 import React, { useState } from "react";
 import { MdSearch } from "react-icons/md";
 import UsersTable from "./UsersTable";
@@ -15,14 +7,6 @@ import APIUsers, { usersEndPoint } from "../../../api/users.api";
 import SkeletonTable from "../components/SkeletonTable";
 import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import AddForm from "./AddForm";
-
-const elements = [
-  { position: 6, mass: 12.011, symbol: "C", name: "Carbon" },
-  { position: 7, mass: 14.007, symbol: "N", name: "Nitrogen" },
-  { position: 39, mass: 88.906, symbol: "Y", name: "Yttrium" },
-  { position: 56, mass: 137.33, symbol: "Ba", name: "Barium" },
-  { position: 58, mass: 140.12, symbol: "Ce", name: "Cerium" },
-];
 
 const headers = [
   { key: 0, label: "No" },
@@ -45,6 +29,7 @@ const Users = () => {
     data: users,
     isLoading,
     error,
+    mutate,
   } = useSWR(
     `${usersEndPoint}?page=${activePage}&limit=${rows}${
       debouncedSearch && `&search=${debouncedSearch}`
@@ -52,12 +37,10 @@ const Users = () => {
     (url) => APIUsers.getUsers(url)
   );
 
-  console.log(users);
-
   return (
     <>
-      <Modal opened={opened} onClose={close}>
-        <AddForm />
+      <Modal opened={opened} onClose={close} withCloseButton={false}>
+        <AddForm close={close} mutateUsers={mutate} />
       </Modal>
       <section className="bg-white shadow-md p-3 rounded">
         <div className="p-4 flex justify-between items-center">
@@ -113,6 +96,7 @@ const Users = () => {
         ) : (
           <div className="overflow-auto">
             <UsersTable
+              mutate={mutate}
               role={activeTab}
               headers={headers}
               users={users?.data}

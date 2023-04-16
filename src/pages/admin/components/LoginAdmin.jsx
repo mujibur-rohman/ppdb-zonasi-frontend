@@ -4,7 +4,6 @@ import * as yup from "yup";
 import { Button, Input } from "@mantine/core";
 import { Auth } from "../../../config/authServices";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
 import { AuthProvider } from "../../../context/AuthContext";
 
 const LoginAdmin = () => {

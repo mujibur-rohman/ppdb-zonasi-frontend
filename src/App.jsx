@@ -14,36 +14,39 @@ import PrivateRoute from "./routes/PrivateRoute";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users/Users";
+import { ModalsProvider } from "@mantine/modals";
 
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
-      <Toaster position="top-center" reverseOrder={false} />
-      <BrowserRouter>
-        <AuthContext>
-          <Routes>
-            {/* Private Siswa */}
-            <Route path="/" element={<Layouts />}>
-              <Route index element={<Home />} />
-              <Route path="pendaftar" element={<Pendaftar />} />
-            </Route>
-            <Route path="/auth" element={<Auth />} />
-            {/* Private Admin */}
-            <Route element={<ProtectedRoute role={[0, 1]} />}>
-              <Route path="/admin" element={<LayoutAdmin />}>
-                <Route index element={<Dashboard />} />
-                <Route path="users" element={<Users />} />
+      <ModalsProvider>
+        <Toaster position="bottom-right" reverseOrder={false} />
+        <BrowserRouter>
+          <AuthContext>
+            <Routes>
+              {/* Private Siswa */}
+              <Route path="/" element={<Layouts />}>
+                <Route index element={<Home />} />
+                <Route path="pendaftar" element={<Pendaftar />} />
               </Route>
-            </Route>
-            <Route element={<PrivateRoute />}>
-              <Route path="/admin/auth" element={<AuthAdmin />} />
-            </Route>
+              <Route path="/auth" element={<Auth />} />
+              {/* Private Admin */}
+              <Route element={<ProtectedRoute role={[0, 1]} />}>
+                <Route path="/admin" element={<LayoutAdmin />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="users" element={<Users />} />
+                </Route>
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route path="/admin/auth" element={<AuthAdmin />} />
+              </Route>
 
-            {/* Not Found */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthContext>
-      </BrowserRouter>
+              {/* Not Found */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthContext>
+        </BrowserRouter>
+      </ModalsProvider>
     </MantineProvider>
   );
 }
