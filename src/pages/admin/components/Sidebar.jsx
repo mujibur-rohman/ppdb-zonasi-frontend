@@ -8,8 +8,8 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`bg-white shadow min-h-screen sticky top-0 h-full ${
-        open ? "w-72" : "w-16"
+      className={`bg-white shadow hidden lg:block min-h-screen sticky top-0 h-full ${
+        open ? "w-64" : "w-16"
       } text-blue-500 px-4 duration-200`}
     >
       <div className={`py-3 flex ${open ? "justify-between" : "justify-end"}`}>

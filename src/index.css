@@ -5,3 +5,7 @@
 a.active {
   @apply bg-blue-500 text-white;
 }
+
+body {
+  overflow-x: hidden;
+}
