@@ -15,6 +15,7 @@ import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users/Users";
 import { ModalsProvider } from "@mantine/modals";
+import Jurusan from "./pages/admin/Jurusan/Jurusan";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/admin" element={<LayoutAdmin />}>
                   <Route index element={<Dashboard />} />
                   <Route path="users" element={<Users />} />
+                  <Route path="jurusan" element={<Jurusan />} />
                 </Route>
               </Route>
               <Route element={<PrivateRoute />}>
