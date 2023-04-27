@@ -28,7 +28,6 @@ const Users = () => {
   const {
     data: users,
     isLoading,
-    error,
     mutate,
   } = useSWR(
     `${usersEndPoint}?page=${activePage}&limit=${rows}${

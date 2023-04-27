@@ -1,20 +1,24 @@
 import { Button, Modal, Table } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React from "react";
-
-const headers = [
-  { key: 0, label: "No" },
-  { key: 1, label: "Jurusan" },
-  { key: 2, label: "" },
-];
+import useSWR from "swr";
+import APIJurusan, { jurusanEndPoint } from "../../../api/jurusan.api";
+import { MdDeleteOutline } from "react-icons/md";
+import SkeletonTable from "../components/SkeletonTable";
+import JurusanTable from "./JurusanTable";
+import AddJurusan from "./AddJurusan";
 
 const Jurusan = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  const {
+    data: jurusan,
+    isLoading,
+    mutate,
+  } = useSWR(jurusanEndPoint, (url) => APIJurusan.getJurusan(url));
 
   return (
     <>
       <Modal opened={opened} onClose={close} withCloseButton={false}>
-        Test
+        <AddJurusan mutate={mutate} close={close} />
       </Modal>
       <section className="bg-white shadow-md p-3 rounded">
         <div className="p-4 flex flex-col md:flex-row md:justify-between items-start md:items-center">
@@ -29,21 +33,13 @@ const Jurusan = () => {
           </Button>
         </div>
         <div className="overflow-auto">
-          <Table horizontalSpacing="md" verticalSpacing="md" fontSize="sm">
-            <thead>
-              <tr>
-                {headers.map((head, i) => (
-                  <th key={i}>{head.label}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="font-normal">
-              <tr>
-                <td>1</td>
-                <td>Komputer</td>
-              </tr>
-            </tbody>
-          </Table>
+          {isLoading ? (
+            <SkeletonTable />
+          ) : (
+            <div className="overflow-auto">
+              <JurusanTable jurusan={jurusan} mutate={mutate} />
+            </div>
+          )}
         </div>
       </section>
     </>
