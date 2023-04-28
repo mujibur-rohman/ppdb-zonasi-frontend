@@ -15,6 +15,8 @@ const Jurusan = () => {
     mutate,
   } = useSWR(jurusanEndPoint, (url) => APIJurusan.getJurusan(url));
 
+  console.log(jurusan);
+
   return (
     <>
       <Modal opened={opened} onClose={close} withCloseButton={false}>
@@ -35,6 +37,8 @@ const Jurusan = () => {
         <div className="overflow-auto">
           {isLoading ? (
             <SkeletonTable />
+          ) : jurusan?.length === 0 ? (
+            <h3 className="text-center pt-4 font-medium">Data Kosong</h3>
           ) : (
             <div className="overflow-auto">
               <JurusanTable jurusan={jurusan} mutate={mutate} />

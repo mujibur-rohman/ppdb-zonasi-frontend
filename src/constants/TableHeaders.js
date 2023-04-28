@@ -1,0 +1,14 @@
+export const HEADERS_USER = [
+  { key: 0, label: "No" },
+  { key: 1, label: "Nama" },
+  { key: 2, label: "Email" },
+  { key: 3, label: "Role" },
+  { key: 4, label: "Email Terferifikasi" },
+  { key: 5, label: "" },
+];
+export const HEADERS_PERIODE_PENDAFTARAN = [
+  { key: 0, label: "No" },
+  { key: 1, label: "Tahun Ajaran" },
+  { key: 2, label: "Total Kuota" },
+  { key: 5, label: "" },
+];

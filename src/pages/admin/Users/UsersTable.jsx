@@ -7,8 +7,9 @@ import { useDisclosure } from "@mantine/hooks";
 import ChangPasswordForm from "./ChangPasswordForm";
 import { useContext, useState } from "react";
 import { AuthProvider } from "../../../context/AuthContext";
+import { HEADERS_USER } from "../../../constants/TableHeaders";
 
-const UsersTable = ({ users, headers, role, mutate }) => {
+const UsersTable = ({ users, role, mutate }) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [selectId, setSelectId] = useState();
   const ctx = useContext(AuthProvider);
@@ -40,11 +41,11 @@ const UsersTable = ({ users, headers, role, mutate }) => {
       <Table horizontalSpacing="md" verticalSpacing="md" fontSize="sm">
         <thead>
           <tr>
-            {headers
-              .filter((head) => (role == 2 ? true : head.key !== 4))
-              .map((head, i) => (
-                <th key={i}>{head.label}</th>
-              ))}
+            {HEADERS_USER.filter((head) =>
+              role == 2 ? true : head.key !== 4
+            ).map((head, i) => (
+              <th key={i}>{head.label}</th>
+            ))}
           </tr>
         </thead>
         <tbody className="font-normal">

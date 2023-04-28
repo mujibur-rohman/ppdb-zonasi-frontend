@@ -19,7 +19,7 @@ const JurusanTable = ({ jurusan, mutate }) => {
   const openDeleteModal = (id) => {
     return modals.openConfirmModal({
       withCloseButton: false,
-      title: <span className="font-bold">Delete User</span>,
+      title: <span className="font-bold">Delete Jurusan</span>,
       children: (
         <Text size="sm">
           Data yang dihapus tidak akan bisa dikembalikan lagi, apakah yakin?
@@ -48,9 +48,9 @@ const JurusanTable = ({ jurusan, mutate }) => {
           </tr>
         </thead>
         <tbody className="font-normal">
-          {jurusan?.map((item) => (
+          {jurusan?.map((item, i) => (
             <tr key={item.id}>
-              <td>1</td>
+              <td>{i + 1}</td>
               <td>{item.name}</td>
               <td className="flex items-center gap-4">
                 <MdDeleteOutline
