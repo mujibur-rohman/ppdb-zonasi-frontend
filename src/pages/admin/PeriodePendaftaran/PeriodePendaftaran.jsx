@@ -6,11 +6,14 @@ import APIRegPeriod, {
 } from "../../../api/periode-pendaftaran.api";
 import PeriodPendaftaranTable from "./PeriodPendaftaranTable";
 import SkeletonTable from "../components/SkeletonTable";
+import { useNavigate } from "react-router-dom";
 
 const PeriodePendaftaran = () => {
   const [activePage, setPage] = useState(1);
   const [rows, setRows] = useState(10);
   const [tahunAjaran, setTahunAjaran] = useState("");
+
+  const navigate = useNavigate();
 
   const { data: regPer, isLoading } = useSWR(
     `${registerPeriodeEndPoint}?limit=${rows}&page=${activePage}${
@@ -23,7 +26,12 @@ const PeriodePendaftaran = () => {
     <section className="bg-white shadow-md p-3 rounded">
       <div className="p-4 flex flex-col md:flex-row md:justify-between items-start md:items-center">
         <h3 className="font-bold text-2xl">Periode Pendaftaran</h3>
-        <Button color="teal" variant="outline" className="mt-8 md:mt-0">
+        <Button
+          color="teal"
+          onClick={() => navigate("add")}
+          variant="outline"
+          className="mt-8 md:mt-0"
+        >
           Buat Periode
         </Button>
       </div>

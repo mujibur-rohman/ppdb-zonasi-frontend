@@ -17,6 +17,7 @@ import Users from "./pages/admin/Users/Users";
 import { ModalsProvider } from "@mantine/modals";
 import Jurusan from "./pages/admin/Jurusan/Jurusan";
 import PeriodePendaftaran from "./pages/admin/PeriodePendaftaran/PeriodePendaftaran";
+import AddPages from "./pages/admin/PeriodePendaftaran/pages/AddPages";
 
 function App() {
   return (
@@ -38,10 +39,10 @@ function App() {
                   <Route index element={<Dashboard />} />
                   <Route path="users" element={<Users />} />
                   <Route path="jurusan" element={<Jurusan />} />
-                  <Route
-                    path="periode-pendaftaran"
-                    element={<PeriodePendaftaran />}
-                  />
+                  <Route path="periode-pendaftaran">
+                    <Route index element={<PeriodePendaftaran />} />
+                    <Route path="add" element={<AddPages />} />
+                  </Route>
                 </Route>
               </Route>
               <Route element={<PrivateRoute />}>
