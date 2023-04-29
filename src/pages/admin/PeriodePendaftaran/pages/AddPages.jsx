@@ -2,7 +2,7 @@ import { Button, NumberInput, Select, Skeleton } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdCalendarMonth } from "react-icons/md";
 import useSWR from "swr";
 import APIJurusan, { jurusanEndPoint } from "../../../../api/jurusan.api";
@@ -16,11 +16,14 @@ const AddPages = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      let obj = {};
+      let objKuota = {};
       jurusan?.forEach((el) => {
-        obj[el.name] = 0;
+        objKuota[el.name] = {
+          jurusan: el.id,
+          kuota: 0,
+        };
       });
-      setKuotaState(obj);
+      setKuotaState(objKuota);
     }
   }, [jurusan]);
 
@@ -113,9 +116,12 @@ const AddPages = () => {
                 label={jur.name}
                 placeholder="0"
                 min={0}
-                value={kuotaState[jur.name] || 0}
+                value={kuotaState[jur.name]?.kuota || 0}
                 onChange={(e) => {
-                  setKuotaState({ ...kuotaState, [jur.name]: e });
+                  setKuotaState({
+                    ...kuotaState,
+                    [jur.name]: { jurusan: jur.id, kuota: e },
+                  });
                 }}
                 stepHoldDelay={500}
                 stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}
