@@ -2,13 +2,19 @@ import { Button, NumberInput, Select, Skeleton } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdCalendarMonth } from "react-icons/md";
 import useSWR from "swr";
 import APIJurusan, { jurusanEndPoint } from "../../../../api/jurusan.api";
+import APIRegPeriod from "../../../../api/periode-pendaftaran.api";
+import { AuthProvider } from "../../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const AddPages = () => {
   const [kuotaState, setKuotaState] = useState({});
+
+  const navigate = useNavigate();
+  const { user } = useContext(AuthProvider);
 
   const { data: jurusan, isLoading } = useSWR(jurusanEndPoint, (url) =>
     APIJurusan.getJurusan(url)
@@ -40,11 +46,29 @@ const AddPages = () => {
       endDate: yup.string().required("tanggal ditutup wajib diisi"),
     }),
     onSubmit: async (val, props) => {
-      console.log(kuotaState);
-      console.log(val);
+      const { endDate, startDate, tahunAjaran } = val;
+      let kuotaArr = [];
+      jurusan?.forEach((el) => {
+        kuotaArr.push(kuotaState[el.name]);
+      });
+
+      try {
+        await APIRegPeriod.addData(
+          {
+            userId: user.id,
+            startDate,
+            tahunAjaran,
+            endDate,
+            kuota: kuotaArr,
+          },
+          navigate
+        );
+        props.resetForm();
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
-  //   console.log(formik.values.kuota);
   return (
     <section className="bg-white shadow-md p-3 rounded">
       <div className="py-4 flex flex-col items-start">
@@ -92,9 +116,11 @@ const AddPages = () => {
               }
               return new Date(input);
             }}
+            disabled={!formik.values.startDate}
             onChange={(e) => formik.setFieldValue("endDate", e)}
             value={formik.values.endDate}
             error={formik.errors.endDate}
+            minDate={formik.values.startDate}
             className="w-full"
             valueFormat="DD/MM/YYYY"
             label="Tanggal Ditutup"
@@ -130,8 +156,12 @@ const AddPages = () => {
           )}
         </div>
         <div className="flex justify-end mt-2">
-          <Button className="mt-3" type="secondary">
-            Tambah
+          <Button
+            className="mt-3"
+            disabled={formik.isSubmitting}
+            type="secondary"
+          >
+            {formik.isSubmitting ? "Loading.." : "Buat"}
           </Button>
         </div>
       </form>

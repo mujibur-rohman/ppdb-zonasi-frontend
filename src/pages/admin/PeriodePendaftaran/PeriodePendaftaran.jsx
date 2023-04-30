@@ -15,7 +15,11 @@ const PeriodePendaftaran = () => {
 
   const navigate = useNavigate();
 
-  const { data: regPer, isLoading } = useSWR(
+  const {
+    data: regPer,
+    isLoading,
+    mutate,
+  } = useSWR(
     `${registerPeriodeEndPoint}?limit=${rows}&page=${activePage}${
       tahunAjaran && `&tahunAjaran=${tahunAjaran}`
     }`,
@@ -72,7 +76,7 @@ const PeriodePendaftaran = () => {
       ) : regPer?.data?.length === 0 ? (
         <h3 className="text-center pt-4 font-medium">Data Kosong</h3>
       ) : (
-        <PeriodPendaftaranTable data={regPer?.data} />
+        <PeriodPendaftaranTable data={regPer?.data} mutate={mutate} />
       )}
       <div className="flex justify-end py-3">
         <Pagination

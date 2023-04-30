@@ -18,6 +18,8 @@ import { ModalsProvider } from "@mantine/modals";
 import Jurusan from "./pages/admin/Jurusan/Jurusan";
 import PeriodePendaftaran from "./pages/admin/PeriodePendaftaran/PeriodePendaftaran";
 import AddPages from "./pages/admin/PeriodePendaftaran/pages/AddPages";
+import EditPages from "./pages/admin/PeriodePendaftaran/pages/EditPages";
+import ProtectedRouteSiswa from "./routes/ProtectedRouteSiswa";
 
 function App() {
   return (
@@ -28,9 +30,11 @@ function App() {
           <AuthContext>
             <Routes>
               {/* Private Siswa */}
-              <Route path="/" element={<Layouts />}>
-                <Route index element={<Home />} />
-                <Route path="pendaftar" element={<Pendaftar />} />
+              <Route element={<ProtectedRouteSiswa role={[2]} />}>
+                <Route path="/" element={<Layouts />}>
+                  <Route index element={<Home />} />
+                  <Route path="pendaftar" element={<Pendaftar />} />
+                </Route>
               </Route>
               <Route path="/auth" element={<Auth />} />
               {/* Private Admin */}
@@ -42,6 +46,7 @@ function App() {
                   <Route path="periode-pendaftaran">
                     <Route index element={<PeriodePendaftaran />} />
                     <Route path="add" element={<AddPages />} />
+                    <Route path=":id/edit" element={<EditPages />} />
                   </Route>
                 </Route>
               </Route>

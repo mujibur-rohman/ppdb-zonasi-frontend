@@ -12,12 +12,55 @@ const APIRegPeriod = {
       console.log(error);
     }
   },
-  addData: async ({ tahunAjaran, startDate, endDate, userId }) => {
+  addData: async (
+    { tahunAjaran, startDate, endDate, userId, kuota },
+    navigate
+  ) => {
     try {
-      const data = await axiosInstance.get(url);
+      const data = await axiosInstance.post(registerPeriodeEndPoint, {
+        tahunAjaran,
+        startDate,
+        endDate,
+        userId,
+        kuota,
+      });
+      toast.success("Periode Pendaftaran Sukses Dibuat");
+      navigate("/admin/periode-pendaftaran");
       return data.data;
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
+    }
+  },
+  editData: async (
+    { tahunAjaran, startDate, endDate, userId, kuota, id },
+    navigate
+  ) => {
+    try {
+      const data = await axiosInstance.put(`${registerPeriodeEndPoint}/${id}`, {
+        tahunAjaran,
+        startDate,
+        endDate,
+        userId,
+        kuota,
+      });
+      toast.success("Periode Pendaftaran Berhasil Diubah");
+      navigate("/admin/periode-pendaftaran");
+      return data.data;
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  },
+
+  deleteData: async (id) => {
+    try {
+      const data = axiosInstance.delete(`${registerPeriodeEndPoint}/${id}`);
+      toast.success("Periode Pendaftaran Berhasil Dihapus");
+      return data.data;
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
     }
   },
 };
