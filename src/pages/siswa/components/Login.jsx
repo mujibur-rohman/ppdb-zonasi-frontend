@@ -1,29 +1,30 @@
 import { Button, Input } from "@mantine/core";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import * as yup from "yup";
+import { AuthProvider } from "../../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { Auth } from "../../../config/authServices";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { setUser } = useContext(AuthProvider);
+
   const formik = useFormik({
     initialValues: {
-      nisn: "",
+      email: "",
       password: "",
     },
     validateOnChange: true,
     onSubmit: async (values) => {
-      try {
-        console.log(values);
-      } catch (error) {
-        console.log(error?.message);
+      const user = await Auth.LoginSiswa(values.email, values.password);
+      if (user) {
+        setUser(user);
+        navigate("/");
       }
     },
     validationSchema: yup.object({
-      nisn: yup
-        .string()
-        .matches(/^-?\d+\.?\d*$/, "NISN must type number")
-        .required("NISN is a required field")
-        .min(3, "NISN must be at least 3 characters")
-        .trim(),
+      email: yup.string().required("email wajib diisi").email().trim(),
       password: yup.string().required().min(6).trim(),
     }),
   });
@@ -32,14 +33,14 @@ const Login = () => {
       <h1 className="text-2xl text-center mb-5 font-bold">Login</h1>
       <form className="flex flex-col gap-3" onSubmit={formik.handleSubmit}>
         <div className="flex flex-col">
-          <Input.Wrapper id="nisn" label="NISN" error={formik.errors.nisn}>
+          <Input.Wrapper id="email" label="Email" error={formik.errors.email}>
             <Input
-              id="nisn"
+              id="email"
               onChange={formik.handleChange}
-              name="nisn"
-              value={formik.values.nisn}
-              placeholder="NISN"
-              error={formik.errors.nisn}
+              name="email"
+              value={formik.values.email}
+              placeholder="Email"
+              error={formik.errors.email}
             />
           </Input.Wrapper>
         </div>
@@ -50,6 +51,7 @@ const Login = () => {
             error={formik.errors.password}
           >
             <Input
+              type="password"
               id="password"
               onChange={formik.handleChange}
               name="password"
@@ -60,7 +62,7 @@ const Login = () => {
           </Input.Wrapper>
         </div>
         <Button type="primary" className="rounded-md">
-          Sign In
+          {formik.isSubmitting ? "Loading" : "Sign In"}
         </Button>
       </form>
     </div>

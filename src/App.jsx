@@ -20,7 +20,9 @@ import PeriodePendaftaran from "./pages/admin/PeriodePendaftaran/PeriodePendafta
 import AddPages from "./pages/admin/PeriodePendaftaran/pages/AddPages";
 import EditPages from "./pages/admin/PeriodePendaftaran/pages/EditPages";
 import ProtectedRouteSiswa from "./routes/ProtectedRouteSiswa";
-
+import PrivateRouteSiswa from "./routes/PrivateRouteSiswa";
+import SecretRoute from "./routes/SecretRoute";
+import SchoolSetting from "./pages/admin/SchoolSetting/SchoolSetting";
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -36,7 +38,9 @@ function App() {
                   <Route path="pendaftar" element={<Pendaftar />} />
                 </Route>
               </Route>
-              <Route path="/auth" element={<Auth />} />
+              <Route element={<PrivateRouteSiswa />}>
+                <Route path="/auth" element={<Auth />} />
+              </Route>
               {/* Private Admin */}
               <Route element={<ProtectedRoute role={[0, 1]} />}>
                 <Route path="/admin" element={<LayoutAdmin />}>
@@ -49,6 +53,12 @@ function App() {
                     <Route path=":id/edit" element={<EditPages />} />
                   </Route>
                 </Route>
+              </Route>
+              <Route element={<SecretRoute role={[0]} />}>
+                <Route
+                  path="/admin/school-setting"
+                  element={<SchoolSetting />}
+                />
               </Route>
               <Route element={<PrivateRoute />}>
                 <Route path="/admin/auth" element={<AuthAdmin />} />
