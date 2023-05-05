@@ -10,7 +10,6 @@ const useRegion = () => {
   const [selectedDistrict, setSelectedDistrict] = useState();
   const [subDistrict, setSubDistrict] = useState([]);
 
-  console.log(subDistrict);
   //   Get Province
   const getProvinsi = async () => {
     await axios

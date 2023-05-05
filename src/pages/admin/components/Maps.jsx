@@ -1,34 +1,44 @@
-import { useJsApiLoader, GoogleMap } from "@react-google-maps/api";
+import {
+  useJsApiLoader,
+  GoogleMap,
+  MarkerF,
+  OverlayViewF,
+} from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
 import { GOOGLE_MAPS_API_KEY } from "../../../constants/apikey";
 import { Skeleton } from "@mantine/core";
+import { MdLocationPin } from "react-icons/md";
 
-const center = { lat: -6.121396, lng: 106.972317 };
-const Maps = () => {
-  const [geo, setGeo] = useState({});
-
+const Maps = ({ onLoad, onClickMap, onClickPin, geo, markerVal }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
   });
-  console.log(geo);
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setGeo({ lat: position.coords.latitude, lng: position.coords.longitude });
-    });
-  }, []);
 
   if (!isLoaded) return <Skeleton height={50} radius="md" my="md" />;
   return (
-    <GoogleMap
-      center={geo}
-      zoom={15}
-      mapContainerStyle={{ width: "100%", height: "100%" }}
-      options={{
-        zoomControl: false,
-        streetViewControl: false,
-        mapTypeControl: false,
-      }}
-    ></GoogleMap>
+    <div className="h-72 mt-1 relative w-full rounded overflow-hidden border-2 border-gray-200">
+      <GoogleMap
+        clickableIcons
+        onClick={onClickMap}
+        center={geo}
+        zoom={15}
+        mapContainerStyle={{ width: "100%", height: "100%" }}
+        options={{
+          zoomControl: false,
+          streetViewControl: false,
+          mapTypeControl: false,
+        }}
+        onLoad={onLoad}
+      >
+        <MarkerF position={markerVal} />
+      </GoogleMap>
+      <div
+        onClick={onClickPin}
+        className="absolute cursor-pointer bottom-2 right-2 bg-white rounded p-1"
+      >
+        <MdLocationPin className="w-5 h-5 text-red-500" />
+      </div>
+    </div>
   );
 };
 
