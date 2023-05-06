@@ -16,7 +16,7 @@ const Maps = ({ onLoad, onClickMap, onClickPin, geo, markerVal }) => {
 
   if (!isLoaded) return <Skeleton height={50} radius="md" my="md" />;
   return (
-    <div className="h-72 mt-1 relative w-full rounded overflow-hidden border-2 border-gray-200">
+    <>
       <GoogleMap
         clickableIcons
         onClick={onClickMap}
@@ -38,7 +38,7 @@ const Maps = ({ onLoad, onClickMap, onClickPin, geo, markerVal }) => {
       >
         <MdLocationPin className="w-5 h-5 text-red-500" />
       </div>
-    </div>
+    </>
   );
 };
 

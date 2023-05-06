@@ -5,6 +5,7 @@ import Maps from "../components/Maps";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useFormik } from "formik";
 import { MdDeleteOutline } from "react-icons/md";
+import * as yup from "yup";
 
 const SchoolSetting = () => {
   const [blobLogo, setBlobLogo] = useState("");
@@ -61,12 +62,35 @@ const SchoolSetting = () => {
       latitude: "",
       longitude: "",
     },
+    validationSchema: yup.object({
+      schoolName: yup.string().required("nama sekolah harus diisi").trim(),
+      npsn: yup
+        .string()
+        .matches(/^-?\d+\.?\d*$/, "NPSN bukan bertipe angka")
+        .required("NPSN harus diisi")
+        .trim(),
+      provinsi: yup.string().required("provinsi harus diisi"),
+      kota: yup.string().required("kota harus diisi"),
+      kecamatan: yup.string().required("kecamatan harus diisi"),
+      kelurahan: yup.string().required("kelurahan harus diisi"),
+      address: yup
+        .string()
+        .required("alamat lengkap sekolah harus diisi")
+        .trim(),
+      kodePos: yup
+        .string()
+        .matches(/^-?\d+\.?\d*$/, "kode pos bukan bertipe angka")
+        .required("kode pos harus diisi")
+        .trim(),
+      latitude: yup.string().required("lokasi harus diisi"),
+      longitude: yup.string().required("lokasi harus diisi"),
+      logo: yup.string().required("logo harus diisi"),
+    }),
     onSubmit: async (values) => {
       console.log(values);
     },
   });
 
-  console.log(blobLogo);
   return (
     <section className="w-full min-h-screen flex md:px-2 md:pb-10 justify-center bg-white">
       <form
@@ -77,16 +101,28 @@ const SchoolSetting = () => {
           Profil Sekolah
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 mt-5 gap-3">
-          <Input.Wrapper withAsterisk id="name" label="Nama Sekolah">
+          <Input.Wrapper
+            error={formik.errors.schoolName}
+            withAsterisk
+            id="name"
+            label="Nama Sekolah"
+          >
             <Input
+              error={formik.errors.schoolName}
               name="schoolName"
               onChange={formik.handleChange}
               value={formik.values.schoolName}
               placeholder="Nama"
             />
           </Input.Wrapper>
-          <Input.Wrapper withAsterisk id="npsn" label="NPSN">
+          <Input.Wrapper
+            error={formik.errors.npsn}
+            withAsterisk
+            id="npsn"
+            label="NPSN"
+          >
             <Input
+              error={formik.errors.npsn}
               onChange={formik.handleChange}
               value={formik.values.npsn}
               name="npsn"
@@ -95,6 +131,7 @@ const SchoolSetting = () => {
           </Input.Wrapper>
           <Select
             withAsterisk
+            error={formik.errors.provinsi}
             value={formik.values.provinsi}
             className="w-full border-red-200"
             label="Provinsi"
@@ -109,6 +146,7 @@ const SchoolSetting = () => {
           <Select
             withAsterisk
             value={formik.values.kota}
+            error={formik.errors.kota}
             className="w-full border-red-200"
             label="Kota/Kabupaten"
             placeholder="Kota/Kabupaten"
@@ -121,6 +159,7 @@ const SchoolSetting = () => {
           />
           <Select
             withAsterisk
+            error={formik.errors.kecamatan}
             value={formik.values.kecamatan}
             className="w-full border-red-200"
             label="Kecamatan"
@@ -133,6 +172,7 @@ const SchoolSetting = () => {
             }}
           />
           <Select
+            error={formik.errors.kelurahan}
             value={formik.values.kelurahan}
             withAsterisk
             className="w-full border-red-200"
@@ -146,14 +186,20 @@ const SchoolSetting = () => {
           />
           <Textarea
             name="address"
+            error={formik.errors.address}
             value={formik.values.address}
             onChange={formik.handleChange}
             placeholder="Alamat Lengkap"
             label="Alamat Lengkap"
             withAsterisk
           />
-          <Input.Wrapper label="Kode Pos" withAsterisk>
+          <Input.Wrapper
+            error={formik.errors.kodePos}
+            label="Kode Pos"
+            withAsterisk
+          >
             <Input
+              error={formik.errors.kodePos}
               name="kodePos"
               placeholder="Kode Pos"
               value={formik.values.kodePos}
@@ -162,6 +208,7 @@ const SchoolSetting = () => {
           </Input.Wrapper>
         </div>
         <Input.Wrapper
+          error={formik.errors.logo}
           label="Logo"
           description={!blobLogo && "Klik atau drag gambar dibawah ini"}
           className="mt-3"
@@ -187,10 +234,19 @@ const SchoolSetting = () => {
                 formik.setFieldValue("logo", files[0]);
                 setBlobLogo(URL.createObjectURL(files[0]));
               }}
-              onReject={(files) => console.log("rejected files", files)}
+              onReject={(files) => {
+                console.log(files);
+                const codeError = files[0].errors.map((err) => err.code);
+                if (codeError.includes("file-too-large")) {
+                  formik.setFieldError("logo", "file lebih dari 5mb");
+                }
+                if (codeError.includes("file-invalid-type")) {
+                  formik.setFieldError("logo", "file tidak valid");
+                }
+              }}
               maxSize={5242900}
               accept={IMAGE_MIME_TYPE}
-              className="mt-2"
+              className={`my-2 ${formik.errors.logo && "border-red-500"}`}
             >
               <Group
                 position="center"
@@ -210,28 +266,34 @@ const SchoolSetting = () => {
           )}
         </Input.Wrapper>
         <Input.Wrapper
+          error={formik.errors.latitude || formik.errors.longitude}
           label="Lokasi Sekolah"
           description="Klik peta untuk membuat lokasi sekolah"
-          className="my-3"
           withAsterisk
         >
-          <Maps
-            onLoad={(map) => setMap(map)}
-            onClickMap={(e) => {
-              formik.setFieldValue("latitude", e.latLng.lat());
-              formik.setFieldValue("longitude", e.latLng.lng());
-            }}
-            onClickPin={() => {
-              map.panTo(geo);
-              formik.setFieldValue("latitude", geo.lat);
-              formik.setFieldValue("longitude", geo.lng);
-            }}
-            geo={geo}
-            markerVal={{
-              lat: formik.values.latitude || 0,
-              lng: formik.values.longitude || 0,
-            }}
-          />
+          <div
+            className={`h-72 my-1 relative w-full rounded overflow-hidden border-[1px] ${
+              formik.errors.latitude ? "border-red-400" : "border-gray-200"
+            }`}
+          >
+            <Maps
+              onLoad={(map) => setMap(map)}
+              onClickMap={(e) => {
+                formik.setFieldValue("latitude", e.latLng.lat());
+                formik.setFieldValue("longitude", e.latLng.lng());
+              }}
+              onClickPin={() => {
+                map.panTo(geo);
+                formik.setFieldValue("latitude", geo.lat);
+                formik.setFieldValue("longitude", geo.lng);
+              }}
+              geo={geo}
+              markerVal={{
+                lat: formik.values.latitude || 0,
+                lng: formik.values.longitude || 0,
+              }}
+            />
+          </div>
         </Input.Wrapper>
         <Button
           className="mt-3 w-full py-2"
