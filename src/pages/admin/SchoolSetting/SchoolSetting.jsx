@@ -6,6 +6,7 @@ import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useFormik } from "formik";
 import { MdDeleteOutline } from "react-icons/md";
 import * as yup from "yup";
+import APIProfileSch from "../../../api/profile-sekolah.api";
 
 const SchoolSetting = () => {
   const [blobLogo, setBlobLogo] = useState("");
@@ -87,7 +88,16 @@ const SchoolSetting = () => {
       logo: yup.string().required("logo harus diisi"),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      const formData = new FormData();
+      for (const val in values) {
+        formData.append(val, values[val]);
+      }
+      window.location.href = "/admin";
+      try {
+        await APIProfileSch.addProfile(formData);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -235,7 +245,6 @@ const SchoolSetting = () => {
                 setBlobLogo(URL.createObjectURL(files[0]));
               }}
               onReject={(files) => {
-                console.log(files);
                 const codeError = files[0].errors.map((err) => err.code);
                 if (codeError.includes("file-too-large")) {
                   formik.setFieldError("logo", "file lebih dari 5mb");

@@ -34,7 +34,6 @@ const APIUsers = {
       toast.success("User Berhasil Ditambahkan");
       return user.data;
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   },
@@ -49,7 +48,6 @@ const APIUsers = {
       toast.success("Password Berhasil Diubah");
       return user.data;
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   },
