@@ -23,6 +23,8 @@ import ProtectedRouteSiswa from "./routes/ProtectedRouteSiswa";
 import PrivateRouteSiswa from "./routes/PrivateRouteSiswa";
 import SecretRoute from "./routes/SecretRoute";
 import SchoolSetting from "./pages/admin/SchoolSetting/SchoolSetting";
+import EmailVerification from "./pages/siswa/EmailVerification";
+import EmailVerifyRoute from "./routes/EmailVerifyRoute";
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -40,6 +42,11 @@ function App() {
               </Route>
               <Route element={<PrivateRouteSiswa />}>
                 <Route path="/auth" element={<Auth />} />
+              </Route>
+
+              {/* Email Verification */}
+              <Route path="/verify-email/:id" element={<EmailVerifyRoute />}>
+                <Route index element={<EmailVerification />} />
               </Route>
               {/* Private Admin */}
               <Route element={<ProtectedRoute role={[0, 1]} />}>
