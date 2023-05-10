@@ -25,6 +25,7 @@ import SecretRoute from "./routes/SecretRoute";
 import SchoolSetting from "./pages/admin/SchoolSetting/SchoolSetting";
 import EmailVerification from "./pages/siswa/EmailVerification";
 import EmailVerifyRoute from "./routes/EmailVerifyRoute";
+import HasVerified from "./pages/siswa/HasVerified";
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -48,6 +49,8 @@ function App() {
               <Route path="/verify-email/:id" element={<EmailVerifyRoute />}>
                 <Route index element={<EmailVerification />} />
               </Route>
+              {/* Has Verified */}
+              <Route path="/verified/:id" element={<HasVerified />} />
               {/* Private Admin */}
               <Route element={<ProtectedRoute role={[0, 1]} />}>
                 <Route path="/admin" element={<LayoutAdmin />}>

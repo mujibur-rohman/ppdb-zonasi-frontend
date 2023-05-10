@@ -1,14 +1,12 @@
 import React, { useContext, useState } from "react";
 import { MdKeyboardArrowDown, MdLogout, MdPermIdentity } from "react-icons/md";
 import Sidebar from "./Sidebar";
-import { Outlet, useNavigate } from "react-router-dom";
-import { Avatar, Menu } from "@mantine/core";
+import { Outlet } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AuthProvider } from "../../../context/AuthContext";
 import { useClickOutside } from "@mantine/hooks";
 
 const LayoutAdmin = () => {
-  const navigate = useNavigate();
   const { user } = useContext(AuthProvider);
   const [showMenu, setShowMenu] = useState(false);
   const refOutside = useClickOutside(() => setShowMenu(false));

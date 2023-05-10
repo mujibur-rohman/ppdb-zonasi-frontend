@@ -14,6 +14,27 @@ const APIUsers = {
       console.log(error);
     }
   },
+  sendEmail: async (id) => {
+    try {
+      const user = await axiosInstance.post(
+        `${usersEndPoint}/send-email/${id}`
+      );
+      return user.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  verifyEmail: async (id) => {
+    try {
+      const user = await axiosInstance.post(
+        `${usersEndPoint}/verify-email/${id}`
+      );
+      console.log(user);
+      return user.data;
+    } catch (error) {
+      throw new Error(error.response.data.message);
+    }
+  },
   deleteUsers: async (id) => {
     try {
       const user = await axiosInstance.delete(`${usersEndPoint}/${id}`);
@@ -34,7 +55,6 @@ const APIUsers = {
       toast.success("User Berhasil Ditambahkan");
       return user.data;
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     }
   },
