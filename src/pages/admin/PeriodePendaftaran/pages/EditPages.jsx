@@ -38,11 +38,11 @@ const EditPages = () => {
       setKuotaState(objKuota);
     }
   }, [regPer]);
-  console.log(kuotaState);
 
   const formik = useFormik({
     initialValues: {
       tahunAjaran: regPer?.tahunAjaran,
+      maxDistance: regPer?.maxDistance,
       startDate: isLoadingRegPer ? "" : new Date(regPer?.startDate),
       endDate: isLoadingRegPer ? "" : new Date(regPer?.endDate),
     },
@@ -52,9 +52,10 @@ const EditPages = () => {
       tahunAjaran: yup.string().required("tahun ajaran wajib diisi"),
       startDate: yup.string().required("tanggal dibuka wajib diisi"),
       endDate: yup.string().required("tanggal ditutup wajib diisi"),
+      maxDistance: yup.number().required("jarak maksimal dibuka wajib diisi"),
     }),
     onSubmit: async (val, props) => {
-      const { endDate, startDate, tahunAjaran } = val;
+      const { endDate, startDate, tahunAjaran, maxDistance } = val;
       let kuotaArr = [];
       jurusan?.forEach((el) => {
         kuotaArr.push(kuotaState[el.name]);
@@ -69,6 +70,7 @@ const EditPages = () => {
             tahunAjaran,
             endDate,
             kuota: kuotaArr,
+            maxDistance,
           },
           navigate
         );
@@ -139,6 +141,17 @@ const EditPages = () => {
               label="Tanggal Ditutup"
               placeholder="End Date"
               icon={<MdCalendarMonth />}
+            />
+          </div>
+          <div className="flex flex-col md:flex-row gap-2">
+            <NumberInput
+              value={formik.values.maxDistance}
+              error={formik.errors.maxDistance}
+              onChange={(val) => formik.setFieldValue("maxDistance", val)}
+              placeholder="Jarak"
+              label="Jarak Maksimal"
+              withAsterisk
+              min={1}
             />
           </div>
           <p className="font-bold py-1 mt-3">Kuota</p>

@@ -9,14 +9,13 @@ import Cookies from "js-cookie";
 const HasVerified = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-  const [seconds, setSeconds] = useState(10);
+  const [seconds, setSeconds] = useState(5);
   const interval = useInterval(() => setSeconds((s) => s - 1), 1000);
 
   const verify = async (id) => {
     try {
       await APIUsers.verifyEmail(id);
     } catch (error) {
-      console.log(error.message);
       window.location.href = "/auth";
     }
     setLoading(false);

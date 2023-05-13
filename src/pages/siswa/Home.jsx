@@ -1,14 +1,18 @@
 import { Accordion, Button } from "@mantine/core";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="bg-white mb-5 py-5 px-3 rounded-md shadow-sm flex justify-between">
         <span className="text-lg lg:text-xl">
           Periode Pendaftaran : 20 Desember 2022 - 27 Desember 2022
         </span>
-        <Button type="primary">Daftar Sekarang</Button>
+        <Button type="primary" onClick={() => navigate("/form-register")}>
+          Daftar Sekarang
+        </Button>
       </div>
       <div className="bg-white mb-5 py-5 px-3 rounded-md shadow-sm">
         <div>

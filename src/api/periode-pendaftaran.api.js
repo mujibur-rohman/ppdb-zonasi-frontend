@@ -13,7 +13,7 @@ const APIRegPeriod = {
     }
   },
   addData: async (
-    { tahunAjaran, startDate, endDate, userId, kuota },
+    { tahunAjaran, startDate, endDate, userId, kuota, maxDistance },
     navigate
   ) => {
     try {
@@ -23,6 +23,7 @@ const APIRegPeriod = {
         endDate,
         userId,
         kuota,
+        maxDistance,
       });
       toast.success("Periode Pendaftaran Sukses Dibuat");
       navigate("/admin/periode-pendaftaran");
@@ -33,7 +34,7 @@ const APIRegPeriod = {
     }
   },
   editData: async (
-    { tahunAjaran, startDate, endDate, userId, kuota, id },
+    { tahunAjaran, startDate, endDate, userId, kuota, id, maxDistance },
     navigate
   ) => {
     try {
@@ -43,6 +44,7 @@ const APIRegPeriod = {
         endDate,
         userId,
         kuota,
+        maxDistance,
       });
       toast.success("Periode Pendaftaran Berhasil Diubah");
       navigate("/admin/periode-pendaftaran");

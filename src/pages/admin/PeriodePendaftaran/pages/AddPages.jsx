@@ -36,6 +36,7 @@ const AddPages = () => {
   const formik = useFormik({
     initialValues: {
       tahunAjaran: ``,
+      maxDistance: "",
       startDate: "",
       endDate: "",
     },
@@ -43,10 +44,11 @@ const AddPages = () => {
     validationSchema: yup.object({
       tahunAjaran: yup.string().required("tahun ajaran wajib diisi"),
       startDate: yup.string().required("tanggal dibuka wajib diisi"),
+      maxDistance: yup.number().required("jarak maksimal dibuka wajib diisi"),
       endDate: yup.string().required("tanggal ditutup wajib diisi"),
     }),
     onSubmit: async (val, props) => {
-      const { endDate, startDate, tahunAjaran } = val;
+      const { endDate, startDate, tahunAjaran, maxDistance } = val;
       let kuotaArr = [];
       jurusan?.forEach((el) => {
         kuotaArr.push(kuotaState[el.name]);
@@ -60,6 +62,7 @@ const AddPages = () => {
             tahunAjaran,
             endDate,
             kuota: kuotaArr,
+            maxDistance,
           },
           navigate
         );
@@ -126,6 +129,17 @@ const AddPages = () => {
             label="Tanggal Ditutup"
             placeholder="End Date"
             icon={<MdCalendarMonth />}
+          />
+        </div>
+        <div className="flex flex-col md:flex-row gap-2">
+          <NumberInput
+            onChange={(val) => formik.setFieldValue("maxDistance", val)}
+            value={formik.values.maxDistance}
+            error={formik.errors.maxDistance}
+            placeholder="Jarak"
+            label="Jarak Maksimal"
+            withAsterisk
+            min={1}
           />
         </div>
         <p className="font-bold py-1 mt-3">Kuota</p>

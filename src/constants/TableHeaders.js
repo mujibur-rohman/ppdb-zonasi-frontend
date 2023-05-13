@@ -9,5 +9,6 @@ export const HEADERS_USER = [
 export const HEADERS_PERIODE_PENDAFTARAN = [
   { key: 0, label: "No" },
   { key: 1, label: "Tahun Ajaran" },
-  { key: 2, label: "" },
+  { key: 2, label: "Maksimal Jarak" },
+  { key: 3, label: "" },
 ];

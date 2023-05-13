@@ -26,6 +26,7 @@ import SchoolSetting from "./pages/admin/SchoolSetting/SchoolSetting";
 import EmailVerification from "./pages/siswa/EmailVerification";
 import EmailVerifyRoute from "./routes/EmailVerifyRoute";
 import HasVerified from "./pages/siswa/HasVerified";
+import FormPendaftaran from "./pages/siswa/FormPendaftaran/FormPendaftaran";
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/" element={<Layouts />}>
                   <Route index element={<Home />} />
                   <Route path="pendaftar" element={<Pendaftar />} />
+                  <Route path="form-register" element={<FormPendaftaran />} />
                 </Route>
               </Route>
               <Route element={<PrivateRouteSiswa />}>
