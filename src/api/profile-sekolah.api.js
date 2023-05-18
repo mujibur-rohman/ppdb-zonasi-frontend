@@ -5,7 +5,6 @@ export const profilSekolahEndPoint = "/profile-school";
 
 const APIProfileSch = {
   addProfile: async (formData) => {
-    console.log(formData);
     try {
       const profile = await axiosInstance.post(
         profilSekolahEndPoint,
