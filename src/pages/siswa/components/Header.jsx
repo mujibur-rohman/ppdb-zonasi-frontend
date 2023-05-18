@@ -8,7 +8,7 @@ import {
 import { FaUserFriends } from "react-icons/fa";
 import { GrAnnounce } from "react-icons/gr";
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { AuthProvider } from "../../../context/AuthContext";
 import { useClickOutside } from "@mantine/hooks";
 import Cookies from "js-cookie";
@@ -59,23 +59,14 @@ const Header = () => {
         </div>
       </nav>
       <div className="lg:px-32 border-b-[1px] bg-white">
-        <Tabs
-          defaultValue="home"
-          className="border-none"
-          style={{ border: "none" }}
-        >
-          <Tabs.List>
-            <Tabs.Tab icon={<MdHomeFilled />} value="home">
-              <Link to={"/"}>Home</Link>
-            </Tabs.Tab>
-            <Tabs.Tab icon={<FaUserFriends />} value="pendaftar">
-              <Link to={"/pendaftar"}>Pendaftar</Link>
-            </Tabs.Tab>
-            <Tabs.Tab icon={<GrAnnounce />} value="announce">
-              Pengumuman
-            </Tabs.Tab>
-          </Tabs.List>
-        </Tabs>
+        <div className="flex">
+          <NavLink className="tab py-2 px-3" to="/">
+            Home
+          </NavLink>
+          <NavLink className="tab py-2 px-3" to="/pendaftaran">
+            Pendaftaran
+          </NavLink>
+        </div>
       </div>
     </header>
   );

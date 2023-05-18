@@ -10,7 +10,12 @@ const Home = () => {
         <span className="text-lg lg:text-xl">
           Periode Pendaftaran : 20 Desember 2022 - 27 Desember 2022
         </span>
-        <Button type="primary" onClick={() => navigate("/form-register")}>
+        <Button
+          type="primary"
+          onClick={() => {
+            window.location.href = "/form-register";
+          }}
+        >
           Daftar Sekarang
         </Button>
       </div>

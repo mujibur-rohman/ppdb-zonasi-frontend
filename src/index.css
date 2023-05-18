@@ -6,6 +6,10 @@ a.active {
   @apply bg-blue-500 text-white;
 }
 
+a.tab.active {
+  @apply border-b-[3px] bg-white text-black border-blue-500;
+}
+
 body {
   overflow-x: hidden;
 }

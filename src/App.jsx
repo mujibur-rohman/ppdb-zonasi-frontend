@@ -29,6 +29,7 @@ import HasVerified from "./pages/siswa/HasVerified";
 import FormPendaftaran from "./pages/siswa/FormPendaftaran/FormPendaftaran";
 import FormBerkas from "./pages/siswa/FormPendaftaran/FormBerkas";
 import FormPendaftaranEdit from "./pages/siswa/FormPendaftaran/FormPendaftaranEdit";
+import FormBerkasEdit from "./pages/siswa/FormPendaftaran/FormBerkasiEdit";
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -41,13 +42,17 @@ function App() {
               <Route element={<ProtectedRouteSiswa role={[2]} />}>
                 <Route path="/" element={<Layouts />}>
                   <Route index element={<Home />} />
-                  <Route path="pendaftar" element={<Pendaftar />} />
+                  <Route path="pendaftaran" element={<Pendaftar />} />
                   <Route path="form-register" element={<FormPendaftaran />} />
                   <Route
                     path="form-register-edited"
                     element={<FormPendaftaranEdit />}
                   />
                   <Route path="form-register/berkas" element={<FormBerkas />} />
+                  <Route
+                    path="form-register/berkas-edit"
+                    element={<FormBerkasEdit />}
+                  />
                 </Route>
               </Route>
               <Route element={<PrivateRouteSiswa />}>

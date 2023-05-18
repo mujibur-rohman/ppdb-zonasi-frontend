@@ -10,7 +10,7 @@ import useSWR from "swr";
 import APIJurusan, { jurusanEndPoint } from "../../../api/jurusan.api";
 import { AuthProvider } from "../../../context/AuthContext";
 import APIPendaftaran, { pendaftaranEndPoint } from "../../../api/pendaftaran";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import SkeletonTable from "../../admin/components/SkeletonTable";
 import axios from "axios";
 
@@ -88,9 +88,10 @@ const FormPendaftaranEdit = () => {
     data: pendaftaran,
     isLoading: loadingRegister,
     mutate,
+    error,
   } = useSWR(
     `${pendaftaranEndPoint}/${ctx.user.id}/${ctx.periodePendaftaran.id}`,
-    (url) => APIPendaftaran.get(url)
+    (url) => APIPendaftaran.get(url, navigate)
   );
 
   useEffect(() => {
@@ -184,7 +185,8 @@ const FormPendaftaranEdit = () => {
           longitude: geo?.lng,
           ...values,
         },
-        navigate
+        navigate,
+        pendaftaran.document
       );
       mutate();
     },

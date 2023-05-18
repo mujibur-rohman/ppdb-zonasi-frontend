@@ -4,12 +4,13 @@ import axiosInstance from "../config/axiosInstance";
 export const pendaftaranEndPoint = "/pendaftaran";
 
 const APIPendaftaran = {
-  get: async (url) => {
+  get: async (url, navigate) => {
     try {
       const data = await axiosInstance.get(url);
       return data.data;
     } catch (error) {
       console.log(error);
+      navigate("/", { replace: true });
     }
   },
 
@@ -33,14 +34,42 @@ const APIPendaftaran = {
     }
   },
 
-  updateData: async ({ id, ...payload }, navigate) => {
+  updateStatus: async (id) => {
+    try {
+      const data = await axiosInstance.put(
+        `/status${pendaftaranEndPoint}/${id}`
+      );
+      return data.data;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  updateData: async ({ id, ...payload }, navigate, document) => {
     try {
       const data = await axiosInstance.put(
         `${pendaftaranEndPoint}/${id}`,
         payload
       );
-      navigate("/form-register/berkas");
+      if (document === null) {
+        navigate("/form-register/berkas");
+      } else {
+        navigate("/form-register/berkas-edit");
+      }
       return data.data;
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  },
+
+  deletePendaftaran: async (id) => {
+    try {
+      const pendaftaran = await axiosInstance.delete(
+        `${pendaftaranEndPoint}/${id}`
+      );
+      toast.success("Pendaftaran Berhasil Dibatalkan");
+      return pendaftaran.data;
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);

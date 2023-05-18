@@ -9,24 +9,25 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import APIDocument from "../../../api/documant.api";
 
-const FormBerkas = () => {
+const FormBerkasEdit = () => {
   const navigate = useNavigate();
   const ctx = useContext(AuthProvider);
   const { data: pendaftaran } = useSWR(
     `${pendaftaranEndPoint}/${ctx.user.id}/${ctx.periodePendaftaran.id}`,
-    (url) => APIPendaftaran.get(url)
+    (url) => APIPendaftaran.get(url, navigate)
   );
 
   const formik = useFormik({
     initialValues: {
-      ijazah: "",
-      raport: "",
-      photo: "",
-      photoWithKord: "",
-      akte: "",
-      kartuKeluarga: "",
-      piagamSertifikat: "",
+      ijazah: pendaftaran?.document.ijazah,
+      raport: pendaftaran?.document.raport,
+      photo: pendaftaran?.document.photo,
+      photoWithKord: pendaftaran?.document.photoWithKord,
+      akte: pendaftaran?.document.akte,
+      kartuKeluarga: pendaftaran?.document.kartuKeluarga,
+      piagamSertifikat: pendaftaran?.document.piagamSertifikat,
     },
+    enableReinitialize: true,
     validateOnChange: false,
     validationSchema: yup.object({
       ijazah: yup.string().required("ijazah lengkap wajib diisi"),
@@ -42,14 +43,13 @@ const FormBerkas = () => {
         formData.append(val, values[val]);
       }
       formData.append("pendaftaranId", pendaftaran.id);
-      await APIDocument.addDocument(formData);
-      await APIPendaftaran.updateStatus(pendaftaran.id);
+      await APIDocument.updateDocument(pendaftaran.document.id, formData);
       navigate("/");
     },
   });
 
-  if (pendaftaran?.document) {
-    return <Navigate to="/form-register/berkas-edit" replace />;
+  if (pendaftaran?.document === null) {
+    return <Navigate to="/" replace />;
   }
 
   return (
@@ -64,7 +64,7 @@ const FormBerkas = () => {
           withAsterisk
           label="Foto"
           description="Background merah"
-          placeholder="Upload Files"
+          placeholder={formik.values.photo}
           accept="image/png,image/jpeg,application/pdf"
           icon={<MdImage />}
         />
@@ -75,7 +75,7 @@ const FormBerkas = () => {
             withAsterisk
             label="Foto Dengan Koordinat"
             description="Ambil foto bebas dengan koordinat menggunakan aplikasi"
-            placeholder="Upload Files"
+            placeholder={formik.values.photoWithKord}
             accept="image/png,image/jpeg,application/pdf"
             icon={<MdImage />}
           />
@@ -88,7 +88,7 @@ const FormBerkas = () => {
           onChange={(val) => formik.setFieldValue("raport", val)}
           withAsterisk
           label="Raport"
-          placeholder="Upload Files"
+          placeholder={formik.values.raport}
           accept="application/pdf"
           icon={<MdUploadFile />}
         />
@@ -97,7 +97,7 @@ const FormBerkas = () => {
           onChange={(val) => formik.setFieldValue("ijazah", val)}
           error={formik.errors.ijazah}
           label="Ijazah"
-          placeholder="Upload Files"
+          placeholder={formik.values.ijazah}
           accept="image/png,image/jpeg,application/pdf"
           icon={<MdImage />}
         />
@@ -106,7 +106,7 @@ const FormBerkas = () => {
           onChange={(val) => formik.setFieldValue("kartuKeluarga", val)}
           error={formik.errors.kartuKeluarga}
           label="Kartu Keluarga"
-          placeholder="Upload Files"
+          placeholder={formik.values.kartuKeluarga}
           accept="image/png,image/jpeg,application/pdf"
           icon={<MdImage />}
         />
@@ -115,7 +115,7 @@ const FormBerkas = () => {
           onChange={(val) => formik.setFieldValue("akte", val)}
           error={formik.errors.akte}
           label="Akte Kelahiran"
-          placeholder="Upload Files"
+          placeholder={formik.values.akte}
           accept="image/png,image/jpeg,application/pdf"
           icon={<MdImage />}
         />
@@ -123,7 +123,7 @@ const FormBerkas = () => {
           description="Tidak Wajib"
           onChange={(val) => formik.setFieldValue("piagamSertifikat", val)}
           label="Piagam/Sertifikat"
-          placeholder="Upload Files"
+          placeholder={formik.values.piagamSertifikat}
           accept="image/png,image/jpeg,application/pdf"
           icon={<MdImage />}
         />
@@ -132,7 +132,9 @@ const FormBerkas = () => {
         <Button
           type="primary"
           color="yellow"
-          onClick={() => navigate("/form-register-edited")}
+          onClick={() => {
+            navigate("/form-register-edited");
+          }}
         >
           <MdArrowForwardIos className="rotate-180 mr-2" />
           <span>Kembali</span>
@@ -148,4 +150,4 @@ const FormBerkas = () => {
   );
 };
 
-export default FormBerkas;
+export default FormBerkasEdit;
