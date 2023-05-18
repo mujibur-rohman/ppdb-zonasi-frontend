@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { Button, Input, Select, Textarea } from "@mantine/core";
@@ -10,14 +10,18 @@ import useSWR from "swr";
 import APIJurusan, { jurusanEndPoint } from "../../../api/jurusan.api";
 import { AuthProvider } from "../../../context/AuthContext";
 import APIPendaftaran, { pendaftaranEndPoint } from "../../../api/pendaftaran";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import SkeletonTable from "../../admin/components/SkeletonTable";
+import axios from "axios";
 
-const FormPendaftaran = () => {
+const FormPendaftaranEdit = () => {
   const [geo, setGeo] = useState({});
+  const [oldCity, setOldCity] = useState();
+  const [oldDistrict, setOldDistrict] = useState();
+  const [oldSubDistrict, setOldSubDistrict] = useState();
   const [loadingSetGeo, setLoadingGeo] = useState(false);
   const ctx = useContext(AuthProvider);
   const navigate = useNavigate();
-
   // Select Daerah
   const {
     provinsi,
@@ -33,18 +37,36 @@ const FormPendaftaran = () => {
     label: prov.nama,
     value: `${prov.id} ${prov.nama}`,
   }));
-  const optionCity = city.map((cit) => ({
-    label: cit.nama,
-    value: `${cit.id} ${cit.nama}`,
-  }));
-  const optionDistrict = district.map((dist) => ({
-    label: dist.nama,
-    value: `${dist.id} ${dist.nama}`,
-  }));
-  const optionSubDistrict = subDistrict.map((sd) => ({
-    label: sd.nama,
-    value: sd.nama,
-  }));
+  const optionCity =
+    city.length === 0
+      ? oldCity?.map((cit) => ({
+          label: cit.nama,
+          value: `${cit.id} ${cit.nama}`,
+        }))
+      : city?.map((cit) => ({
+          label: cit.nama,
+          value: `${cit.id} ${cit.nama}`,
+        }));
+  const optionDistrict =
+    district.length === 0
+      ? oldDistrict?.map((dist) => ({
+          label: dist.nama,
+          value: `${dist.id} ${dist.nama}`,
+        }))
+      : district?.map((dist) => ({
+          label: dist.nama,
+          value: `${dist.id} ${dist.nama}`,
+        }));
+  const optionSubDistrict =
+    subDistrict.length === 0
+      ? oldSubDistrict?.map((sd) => ({
+          label: sd.nama,
+          value: sd.nama,
+        }))
+      : subDistrict?.map((sd) => ({
+          label: sd.nama,
+          value: sd.nama,
+        }));
   const optionReligion = [
     { value: "Islam", label: "Islam" },
     { value: "Kristen", label: "Kristen" },
@@ -62,29 +84,73 @@ const FormPendaftaran = () => {
     value: jur.id,
   }));
 
-  const { data: pendaftaran, isLoading: loadingRegister } = useSWR(
+  const {
+    data: pendaftaran,
+    isLoading: loadingRegister,
+    mutate,
+  } = useSWR(
     `${pendaftaranEndPoint}/${ctx.user.id}/${ctx.periodePendaftaran.id}`,
     (url) => APIPendaftaran.get(url)
   );
 
+  useEffect(() => {
+    const getCity = async () => {
+      if (pendaftaran) {
+        const splitProv = pendaftaran.provinsi.split(" ");
+        await axios
+          .get(
+            `https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${splitProv[0]}`
+          )
+          .then((prov) => setOldCity(prov.data?.kota_kabupaten))
+          .catch((err) => console.log(err));
+      }
+    };
+    const getDistrict = async () => {
+      if (pendaftaran) {
+        const splitCity = pendaftaran.kota.split(" ");
+        await axios
+          .get(
+            `https://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${splitCity[0]}`
+          )
+          .then((prov) => setOldDistrict(prov.data?.kecamatan))
+          .catch((err) => console.log(err));
+      }
+    };
+    const getSubDistrict = async () => {
+      if (pendaftaran) {
+        const splitDist = pendaftaran.kecamatan.split(" ");
+        await axios
+          .get(
+            `https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${splitDist[0]}`
+          )
+          .then((prov) => setOldSubDistrict(prov.data?.kelurahan))
+          .catch((err) => console.log(err));
+      }
+    };
+    getCity();
+    getDistrict();
+    getSubDistrict();
+  }, [pendaftaran]);
+
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      placeBirth: "",
-      birthday: "",
-      religion: "",
-      gender: "",
-      jurusanId: "",
-      fromSchool: "",
-      nisn: "",
-      address: "",
-      kelurahan: "",
-      kecamatan: "",
-      kota: "",
-      provinsi: "",
-      kodePos: "",
-      jarak: "",
+      fullName: pendaftaran?.fullName,
+      placeBirth: pendaftaran?.placeBirth,
+      birthday: pendaftaran?.id ? new Date(pendaftaran?.birthday) : "",
+      religion: pendaftaran?.religion,
+      gender: pendaftaran?.gender,
+      jurusanId: pendaftaran?.jurusanId,
+      fromSchool: pendaftaran?.fromSchool,
+      nisn: pendaftaran?.nisn,
+      address: pendaftaran?.address,
+      kelurahan: pendaftaran?.kelurahan,
+      kecamatan: pendaftaran?.kecamatan,
+      kota: pendaftaran?.kota,
+      provinsi: pendaftaran?.provinsi,
+      kodePos: pendaftaran?.kodePos,
+      jarak: pendaftaran?.jarak,
     },
+    enableReinitialize: true,
     validateOnChange: false,
     validationSchema: yup.object({
       fullName: yup.string().required("nama lengkap wajib diisi"),
@@ -108,8 +174,9 @@ const FormPendaftaran = () => {
       jarak: yup.string().required("jarak wajib diisi"),
     }),
     onSubmit: async (values) => {
-      await APIPendaftaran.addData(
+      await APIPendaftaran.updateData(
         {
+          id: pendaftaran?.id,
           userId: ctx.user.id,
           registerPeriodId: ctx.periodePendaftaran.id,
           status: -1,
@@ -119,6 +186,7 @@ const FormPendaftaran = () => {
         },
         navigate
       );
+      mutate();
     },
   });
   // Hitung jarak
@@ -144,9 +212,7 @@ const FormPendaftaran = () => {
     });
   };
 
-  if (pendaftaran) {
-    return <Navigate to="/form-register-edited" replace />;
-  }
+  if (loadingRegister) return <SkeletonTable />;
 
   return (
     <div>
@@ -253,6 +319,9 @@ const FormPendaftaran = () => {
             searchable
             onChange={(e) => {
               formik.setFieldValue("provinsi", e);
+              formik.setFieldValue("kota", "");
+              formik.setFieldValue("kecamatan", "");
+              formik.setFieldValue("kelurahan", "");
               setSelectedProvinsi(e);
             }}
           />
@@ -264,7 +333,7 @@ const FormPendaftaran = () => {
             label="Kota/Kabupaten"
             placeholder="Kota/Kabupaten"
             searchable
-            data={optionCity}
+            data={optionCity ? optionCity : [{ label: "", value: "" }]}
             onChange={(e) => {
               formik.setFieldValue("kota", e);
               setSelectedCity(e);
@@ -278,7 +347,7 @@ const FormPendaftaran = () => {
             label="Kecamatan"
             placeholder="Kecamatan"
             searchable
-            data={optionDistrict}
+            data={optionDistrict ? optionDistrict : [{ label: "", value: "" }]}
             onChange={(e) => {
               formik.setFieldValue("kecamatan", e);
               setSelectedDistrict(e);
@@ -297,7 +366,9 @@ const FormPendaftaran = () => {
             onChange={(e) => {
               formik.setFieldValue("kelurahan", e);
             }}
-            data={optionSubDistrict}
+            data={
+              optionSubDistrict ? optionSubDistrict : [{ label: "", value: "" }]
+            }
           />
           <Input.Wrapper
             error={formik.errors.kodePos}
@@ -391,4 +462,4 @@ const FormPendaftaran = () => {
   );
 };
 
-export default FormPendaftaran;
+export default FormPendaftaranEdit;
