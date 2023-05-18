@@ -30,6 +30,7 @@ import FormPendaftaran from "./pages/siswa/FormPendaftaran/FormPendaftaran";
 import FormBerkas from "./pages/siswa/FormPendaftaran/FormBerkas";
 import FormPendaftaranEdit from "./pages/siswa/FormPendaftaran/FormPendaftaranEdit";
 import FormBerkasEdit from "./pages/siswa/FormPendaftaran/FormBerkasiEdit";
+import DetailPendaftaran from "./pages/siswa/DetailPendaftaran";
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -52,6 +53,10 @@ function App() {
                   <Route
                     path="form-register/berkas-edit"
                     element={<FormBerkasEdit />}
+                  />
+                  <Route
+                    path="pendaftaran/:id"
+                    element={<DetailPendaftaran />}
                   />
                 </Route>
               </Route>

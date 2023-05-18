@@ -13,3 +13,27 @@ a.tab.active {
 body {
   overflow-x: hidden;
 }
+
+.preview {
+  animation: preview 0.3s ease-out;
+}
+.backdrop {
+  animation: backdrop 0.5s ease-out;
+}
+
+@keyframes preview {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes backdrop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

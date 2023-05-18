@@ -123,6 +123,17 @@ const Pendaftar = () => {
                       >
                         Batalkan Pendaftaran
                       </Button>
+                      <Button
+                        type="primary"
+                        color="cyan"
+                        variant="outline"
+                        size="xs"
+                        onClick={() => {
+                          navigate("/form-register-edited");
+                        }}
+                      >
+                        Ubah Pendaftaran
+                      </Button>
                     </>
                   )}
                   <Button
@@ -130,6 +141,7 @@ const Pendaftar = () => {
                     color="blue"
                     variant="outline"
                     size="xs"
+                    onClick={() => navigate(`/pendaftaran/${reg.id}`)}
                   >
                     Lihat Detail
                   </Button>

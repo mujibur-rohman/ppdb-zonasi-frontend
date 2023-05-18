@@ -10,7 +10,7 @@ import useSWR from "swr";
 import APIJurusan, { jurusanEndPoint } from "../../../api/jurusan.api";
 import { AuthProvider } from "../../../context/AuthContext";
 import APIPendaftaran, { pendaftaranEndPoint } from "../../../api/pendaftaran";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SkeletonTable from "../../admin/components/SkeletonTable";
 import axios from "axios";
 
@@ -180,7 +180,7 @@ const FormPendaftaranEdit = () => {
           id: pendaftaran?.id,
           userId: ctx.user.id,
           registerPeriodId: ctx.periodePendaftaran.id,
-          status: -1,
+          status: pendaftaran?.status,
           latitude: geo?.lat,
           longitude: geo?.lng,
           ...values,
