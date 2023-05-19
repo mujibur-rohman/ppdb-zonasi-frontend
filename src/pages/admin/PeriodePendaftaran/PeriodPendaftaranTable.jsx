@@ -40,6 +40,7 @@ const PeriodPendaftaranTable = ({ data, mutate }) => {
           <tr key={item.id}>
             <td>{i + 1}</td>
             <td>{item.tahunAjaran}</td>
+            <td>{item.maxDistance}</td>
             {/* <td>{item.kuota?.reduce((acc, cur) => acc.kuota + cur.kuota)}</td> */}
             <td className="flex items-center gap-4">
               <MdDeleteOutline

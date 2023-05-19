@@ -15,3 +15,11 @@ export const formatDateYMD = (date) => {
 export const formatDateDMY = (ymdFormat) => {
   return ymdFormat.split("-").reverse().join("-");
 };
+
+export const formatComplete = (date) => {
+  return Intl.DateTimeFormat("id", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(date));
+};

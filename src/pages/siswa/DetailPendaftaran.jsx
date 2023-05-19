@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { Paper, Text } from "@mantine/core";
 import { formatDateDMY, formatDateYMD } from "../../lib/formatDate";
 import { MdOutlineFilePresent } from "react-icons/md";
+import SkeletonTable from "../admin/components/SkeletonTable";
 
 const DetailPendaftaran = () => {
   const ctx = useContext(AuthProvider);
@@ -17,6 +18,10 @@ const DetailPendaftaran = () => {
     `${pendaftaranEndPoint}/${id}`,
     (url) => APIPendaftaran.get(url)
   );
+
+  if (isLoading) {
+    return <SkeletonTable />;
+  }
 
   return (
     <Paper shadow="xs" p="md">
