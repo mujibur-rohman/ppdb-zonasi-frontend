@@ -11,9 +11,9 @@ const ProtectedRouteSiswa = ({ role }) => {
   if (!user) {
     return <Navigate to="/auth" replace={true} />;
   } else if (role?.includes(user.role)) {
-    if (user.isEmailVerified) {
-      return <Outlet />;
-    }
+    // if (user.isEmailVerified) {
+    return <Outlet />;
+    // }
     return <Navigate to={`/verify-email/${user.uuid}`} replace={true} />;
   }
   return <NotAuthorization />;

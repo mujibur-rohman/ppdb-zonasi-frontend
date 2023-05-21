@@ -40,6 +40,12 @@ const Pendaftar = () => {
 
   const statusBadge = (status) => {
     switch (status) {
+      case -2:
+        return (
+          <Badge color="red" size="lg">
+            Jarak Anda Terlalu Jauh
+          </Badge>
+        );
       case -1:
         return (
           <Badge color="gray" size="lg">

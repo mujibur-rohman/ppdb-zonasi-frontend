@@ -38,7 +38,7 @@ const AddForm = ({ close, mutateUsers }) => {
   });
 
   const generatePassword = () => {
-    formik.setFieldValue("password", "12345678");
+    formik.setFieldValue("password", "111111");
   };
   return (
     <section>

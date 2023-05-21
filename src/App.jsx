@@ -5,7 +5,6 @@ import Auth from "./pages/siswa/Auth";
 import AuthAdmin from "./pages/admin/Auth";
 import Home from "./pages/siswa/Home";
 import Layouts from "./pages/siswa/components/Layouts";
-import Pendaftar from "./pages/siswa/Pendaftar";
 import LayoutAdmin from "./pages/admin/components/LayoutAdmin";
 import { Toaster } from "react-hot-toast";
 import AuthContext from "./context/AuthContext";
@@ -31,6 +30,9 @@ import FormBerkas from "./pages/siswa/FormPendaftaran/FormBerkas";
 import FormPendaftaranEdit from "./pages/siswa/FormPendaftaran/FormPendaftaranEdit";
 import FormBerkasEdit from "./pages/siswa/FormPendaftaran/FormBerkasiEdit";
 import DetailPendaftaran from "./pages/siswa/DetailPendaftaran";
+import PendaftarSiswa from "./pages/siswa/Pendaftar";
+import DetailPendaftar from "./pages/admin/Pendaftar/DetailPendaftar";
+import Pendaftar from "./pages/admin/Pendaftar/Pendaftar";
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -43,7 +45,7 @@ function App() {
               <Route element={<ProtectedRouteSiswa role={[2]} />}>
                 <Route path="/" element={<Layouts />}>
                   <Route index element={<Home />} />
-                  <Route path="pendaftaran" element={<Pendaftar />} />
+                  <Route path="pendaftaran" element={<PendaftarSiswa />} />
                   <Route path="form-register" element={<FormPendaftaran />} />
                   <Route
                     path="form-register-edited"
@@ -76,6 +78,8 @@ function App() {
                   <Route index element={<Dashboard />} />
                   <Route path="users" element={<Users />} />
                   <Route path="jurusan" element={<Jurusan />} />
+                  <Route path="pendaftar" element={<Pendaftar />} />
+                  <Route path="pendaftar/:id" element={<DetailPendaftar />} />
                   <Route path="periode-pendaftaran">
                     <Route index element={<PeriodePendaftaran />} />
                     <Route path="add" element={<AddPages />} />

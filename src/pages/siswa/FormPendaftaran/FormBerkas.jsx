@@ -42,8 +42,10 @@ const FormBerkas = () => {
         formData.append(val, values[val]);
       }
       formData.append("pendaftaranId", pendaftaran.id);
-      await APIDocument.addDocument(formData);
-      await APIPendaftaran.updateStatus(pendaftaran.id);
+      const docs = await APIDocument.addDocument(formData);
+      if (docs) {
+        await APIPendaftaran.updateStatus(pendaftaran.id);
+      }
       navigate("/");
     },
   });

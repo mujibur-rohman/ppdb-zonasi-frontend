@@ -1,23 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
-import APIPendaftaran, { pendaftaranEndPoint } from "../../api/pendaftaran";
-import { AuthProvider } from "../../context/AuthContext";
 import { useParams } from "react-router-dom";
-import { Paper } from "@mantine/core";
-import { formatDateDMY, formatDateYMD } from "../../lib/formatDate";
+import { Badge, Button, Divider, Paper } from "@mantine/core";
 import { MdOutlineFilePresent } from "react-icons/md";
-import SkeletonTable from "../admin/components/SkeletonTable";
+import APIPendaftaran, { pendaftaranEndPoint } from "../../../api/pendaftaran";
+import { formatDateDMY, formatDateYMD } from "../../../lib/formatDate";
+import SkeletonTable from "../components/SkeletonTable";
+import Maps from "../components/Maps";
 
-const DetailPendaftaran = () => {
-  const ctx = useContext(AuthProvider);
+const DetailPendaftar = () => {
   const [urlFile, setUrlFile] = useState();
   const [isOpenBackdrop, setIsOpenBack] = useState(false);
+  const [map, setMap] = useState(/** @type google.maps.Map */ (null));
+  const [geo, setGeo] = useState({});
   const { id } = useParams();
 
   const { data: pendaftaran, isLoading } = useSWR(
     `${pendaftaranEndPoint}/${id}`,
     (url) => APIPendaftaran.get(url)
   );
+
+  console.log(pendaftaran);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setGeo({ lat: position.coords.latitude, lng: position.coords.longitude });
+    });
+  }, []);
 
   if (isLoading) {
     return <SkeletonTable />;
@@ -28,7 +37,7 @@ const DetailPendaftaran = () => {
       {isOpenBackdrop && (
         <div
           onClick={(e) => setIsOpenBack(false)}
-          className="backdrop fixed flex justify-center items-center cursor-pointer top-0 right-0 left-0 bottom-0 bg-black/25"
+          className="backdrop z-50 fixed flex justify-center items-center cursor-pointer top-0 right-0 left-0 bottom-0 bg-black/25"
         >
           <img
             onClick={(e) => e.stopPropagation()}
@@ -38,8 +47,18 @@ const DetailPendaftaran = () => {
           />
         </div>
       )}
-      <h2 className="text-3xl font-medium mb-4">Informasi Pribadi</h2>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="text-3xl font-medium mb-4">Informasi Pribadi</h2>
+        <div className="flex gap-3">
+          <Button variant="filled" type="primary" color="red">
+            Diskualifikasi
+          </Button>
+          <Button variant="filled" type="primary" color="green">
+            Verifikasi
+          </Button>
+        </div>
+      </div>
+      <div className="grid grid-cols-4 gap-8">
         <div className="flex flex-col gap-1">
           <span>Nama</span>
           <span className="text-xl font-medium">{pendaftaran?.fullName}</span>
@@ -77,8 +96,9 @@ const DetailPendaftaran = () => {
           </span>
         </div>
       </div>
-      <h2 className="text-3xl font-medium my-4">Dokumen</h2>
-      <div className="grid grid-cols-3 gap-8">
+      <Divider my="sm" className="my-9" variant="solid" />
+      <h2 className="text-3xl font-medium my-3">Dokumen</h2>
+      <div className="grid grid-cols-4 gap-8">
         <div className="flex flex-col gap-1">
           <span>Ijazah</span>
           {pendaftaran?.document?.ijazah ? (
@@ -196,9 +216,41 @@ const DetailPendaftaran = () => {
             <span>-</span>
           )}
         </div>
+        <div className="flex flex-col gap-1">
+          <span>Jarak</span>
+          <span className="text-xl font-medium">
+            <Badge color="yellow" size="xl">
+              {pendaftaran?.jarak} Km
+            </Badge>
+          </span>
+        </div>
+      </div>
+      <div className="mt-4">
+        <span>Titik Lokasi</span>
+        <div
+          className={`h-72 my-1 relative w-full rounded overflow-hidden border-[1px]`}
+        >
+          <Maps
+            onLoad={(map) => setMap(map)}
+            onClickPin={() => {
+              map.panTo({
+                lat: pendaftaran.latitude * 1,
+                lng: pendaftaran.longitude * 1,
+              });
+            }}
+            geo={{
+              lat: pendaftaran?.latitude * 1,
+              lng: pendaftaran?.longitude * 1,
+            }}
+            markerVal={{
+              lat: pendaftaran?.latitude * 1,
+              lng: pendaftaran?.longitude * 1,
+            }}
+          />
+        </div>
       </div>
     </Paper>
   );
 };
 
-export default DetailPendaftaran;
+export default DetailPendaftar;
