@@ -18,4 +18,5 @@ export const MENUS_SIDEBAR = [
   },
   { name: "Jurusan", link: "/admin/jurusan", icon: MdWebhook },
   { name: "Users", link: "/admin/users", icon: FaUsers },
+  { name: "Profil Sekolah", link: "/admin/school-setting/edit", icon: FaUsers },
 ];

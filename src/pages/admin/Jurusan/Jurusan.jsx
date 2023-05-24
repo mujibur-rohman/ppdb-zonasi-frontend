@@ -15,8 +15,6 @@ const Jurusan = () => {
     mutate,
   } = useSWR(jurusanEndPoint, (url) => APIJurusan.getJurusan(url));
 
-  console.log(jurusan);
-
   return (
     <>
       <Modal opened={opened} onClose={close} withCloseButton={false}>
