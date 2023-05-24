@@ -7,12 +7,15 @@ import APIPendaftaran from "../../../api/pendaftaran";
 import { statusPendaftar } from "../../../lib/statusCheck";
 import SkeletonTable from "../components/SkeletonTable";
 import { modals } from "@mantine/modals";
+import APIRegPeriod, {
+  registerPeriodeEndPoint,
+} from "../../../api/periode-pendaftaran.api";
 
 const Qualification = () => {
-  const { periodePendaftaran } = useContext(AuthProvider);
+  // const { periodePendaftaran } = useContext(AuthProvider);
   const [activeTab, setActiveTab] = useState("");
 
-  const openDeleteModal = () => {
+  const openSendEmailModal = () => {
     return modals.openConfirmModal({
       withCloseButton: false,
       title: <span className="font-bold">Delete Periode Pendaftaran</span>,
@@ -22,7 +25,7 @@ const Qualification = () => {
         </Text>
       ),
       labels: { confirm: "Kirim", cancel: "Cancel" },
-      confirmProps: { color: "red", variant: "outline" },
+      confirmProps: { color: "green", variant: "outline" },
       cancelProps: { color: "blue", variant: "light" },
       onConfirm: async () => {
         await APIPendaftaran.sendEmail();
@@ -34,12 +37,16 @@ const Qualification = () => {
     `/qualification?jurusanId=${activeTab}`,
     (url) => APIPendaftaran.qualification(url)
   );
+  const { data: periodePendaftaran } = useSWR(
+    `${registerPeriodeEndPoint}`,
+    (url) => APIRegPeriod.getAll(`${url}/now/${new Date().getFullYear()}`)
+  );
   useEffect(() => {
-    if (periodePendaftaran.kuota) {
+    if (periodePendaftaran?.kuota) {
       setActiveTab(periodePendaftaran.kuota[0].jurusan.id);
     }
-  }, []);
-
+  }, [periodePendaftaran]);
+  //   console.log(periodePendaftaran);
   return (
     <section className="bg-white shadow-md p-3 rounded">
       <div className="p-4 flex flex-col md:flex-row md:justify-between items-start md:items-center">
@@ -74,8 +81,9 @@ const Qualification = () => {
           type="primary"
           variant="outline"
           color="violet"
+          onClick={() => openSendEmailModal()}
           disabled={
-            new Date(periodePendaftaran.endDate).getTime() >
+            new Date(periodePendaftaran?.endDate).getTime() >
             new Date().getTime()
           }
         >

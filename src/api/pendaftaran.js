@@ -27,6 +27,7 @@ const APIPendaftaran = {
   sendEmail: async () => {
     try {
       const data = await axiosInstance.post("/qualification/send-email");
+      toast.success("Email berhasil dikirim");
       return data.data;
     } catch (error) {
       console.log(error);
