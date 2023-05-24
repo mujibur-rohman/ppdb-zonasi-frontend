@@ -33,6 +33,7 @@ import DetailPendaftaran from "./pages/siswa/DetailPendaftaran";
 import PendaftarSiswa from "./pages/siswa/Pendaftar";
 import DetailPendaftar from "./pages/admin/Pendaftar/DetailPendaftar";
 import Pendaftar from "./pages/admin/Pendaftar/Pendaftar";
+import Qualification from "./pages/admin/Qualification/Qualification";
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -80,6 +81,7 @@ function App() {
                   <Route path="jurusan" element={<Jurusan />} />
                   <Route path="pendaftar" element={<Pendaftar />} />
                   <Route path="pendaftar/:id" element={<DetailPendaftar />} />
+                  <Route path="qualification" element={<Qualification />} />
                   <Route path="periode-pendaftaran">
                     <Route index element={<PeriodePendaftaran />} />
                     <Route path="add" element={<AddPages />} />

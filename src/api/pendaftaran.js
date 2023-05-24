@@ -14,6 +14,26 @@ const APIPendaftaran = {
     }
   },
 
+  qualification: async (url) => {
+    try {
+      const data = await axiosInstance.get(url);
+      return data.data;
+    } catch (error) {
+      console.log(error);
+      navigate("/", { replace: true });
+    }
+  },
+
+  sendEmail: async () => {
+    try {
+      const data = await axiosInstance.post("/qualification/send-email");
+      return data.data;
+    } catch (error) {
+      console.log(error);
+      navigate("/", { replace: true });
+    }
+  },
+
   getByUser: async (url, body) => {
     try {
       const data = await axiosInstance.get(url, body);

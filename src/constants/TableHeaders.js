@@ -22,3 +22,12 @@ export const HEADERS_PENDAFTAR = [
   { key: 5, label: "Jarak" },
   { key: 6, label: "" },
 ];
+
+export const HEADERS_QUALIFICATIONS = [
+  { key: 0, label: "No" },
+  { key: 1, label: "Nama" },
+  { key: 2, label: "NISN" },
+  { key: 3, label: "Asal Sekolah" },
+  { key: 4, label: "Status" },
+  { key: 5, label: "Jarak" },
+];
