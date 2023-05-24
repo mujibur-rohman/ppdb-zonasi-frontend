@@ -22,6 +22,21 @@ export const Auth = {
       }
     }
   },
+  RegisterSiswa: async ({ email, password, fullName }) => {
+    try {
+      const user = await axiosInstance.post(`${authEndPoint}/register`, {
+        fullName,
+        email,
+        password,
+      });
+      return user.data;
+    } catch (error) {
+      console.log(error);
+      if (error.response.data) {
+        toast.error(error.response.data.message);
+      }
+    }
+  },
   LoginSiswa: async (email, password) => {
     try {
       const user = await axiosInstance.post(

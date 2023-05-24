@@ -35,6 +35,7 @@ import DetailPendaftar from "./pages/admin/Pendaftar/DetailPendaftar";
 import Pendaftar from "./pages/admin/Pendaftar/Pendaftar";
 import Qualification from "./pages/admin/Qualification/Qualification";
 import SchoolSettingEdit from "./pages/admin/SchoolSetting/SchoolSettingEdit";
+import Register from "./pages/siswa/Register";
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -66,6 +67,7 @@ function App() {
               </Route>
               <Route element={<PrivateRouteSiswa />}>
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/register" element={<Register />} />
               </Route>
 
               {/* Email Verification */}
