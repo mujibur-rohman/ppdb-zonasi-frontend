@@ -21,10 +21,9 @@ const Pendaftar = () => {
   } = useSWR(
     `${pendaftaranEndPoint}?page=${activePage}&limit=${rows}${
       debouncedSearch && `&search=${debouncedSearch}`
-    }&status=${activeTab}`,
+    }&status=${activeTab * 1}`,
     (url) => APIPendaftaran.get(url)
   );
-
   return (
     <>
       <section className="bg-white shadow-md p-3 rounded">

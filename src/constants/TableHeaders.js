@@ -19,5 +19,6 @@ export const HEADERS_PENDAFTAR = [
   { key: 2, label: "NISN" },
   { key: 3, label: "Asal Sekolah" },
   { key: 4, label: "Status" },
-  { key: 5, label: "" },
+  { key: 5, label: "Jarak" },
+  { key: 6, label: "" },
 ];

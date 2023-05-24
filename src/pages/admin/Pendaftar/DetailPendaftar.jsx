@@ -1,32 +1,46 @@
 import React, { useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { useParams } from "react-router-dom";
-import { Badge, Button, Divider, Paper } from "@mantine/core";
+import { Badge, Button, Divider, Paper, Text } from "@mantine/core";
 import { MdOutlineFilePresent } from "react-icons/md";
 import APIPendaftaran, { pendaftaranEndPoint } from "../../../api/pendaftaran";
 import { formatDateDMY, formatDateYMD } from "../../../lib/formatDate";
 import SkeletonTable from "../components/SkeletonTable";
 import Maps from "../components/Maps";
+import { modals } from "@mantine/modals";
+import { statusButton } from "../../../lib/statusCheck";
+import APIStatus from "../../../api/status.api";
 
 const DetailPendaftar = () => {
   const [urlFile, setUrlFile] = useState();
   const [isOpenBackdrop, setIsOpenBack] = useState(false);
   const [map, setMap] = useState(/** @type google.maps.Map */ (null));
-  const [geo, setGeo] = useState({});
   const { id } = useParams();
 
-  const { data: pendaftaran, isLoading } = useSWR(
-    `${pendaftaranEndPoint}/${id}`,
-    (url) => APIPendaftaran.get(url)
-  );
+  const {
+    data: pendaftaran,
+    isLoading,
+    mutate,
+  } = useSWR(`${pendaftaranEndPoint}/${id}`, (url) => APIPendaftaran.get(url));
 
-  console.log(pendaftaran);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setGeo({ lat: position.coords.latitude, lng: position.coords.longitude });
+  const openVerifModal = ({ id, message, header, isDecline }) => {
+    return modals.openConfirmModal({
+      withCloseButton: false,
+      title: <span className="font-medium">{header}</span>,
+      children: <Text size="sm">{message}</Text>,
+      labels: { confirm: "Yes", cancel: "No" },
+      confirmProps: { color: "green", variant: "outline" },
+      cancelProps: { color: "blue", variant: "light" },
+      onConfirm: async () => {
+        if (!isDecline) {
+          await APIStatus.selectionPendaftaran(id);
+        } else {
+          await APIStatus.decline(id);
+        }
+        mutate();
+      },
     });
-  }, []);
+  };
 
   if (isLoading) {
     return <SkeletonTable />;
@@ -50,12 +64,7 @@ const DetailPendaftar = () => {
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-3xl font-medium mb-4">Informasi Pribadi</h2>
         <div className="flex gap-3">
-          <Button variant="filled" type="primary" color="red">
-            Diskualifikasi
-          </Button>
-          <Button variant="filled" type="primary" color="green">
-            Verifikasi
-          </Button>
+          {statusButton(pendaftaran.status, pendaftaran.id, openVerifModal)}
         </div>
       </div>
       <div className="grid grid-cols-4 gap-8">

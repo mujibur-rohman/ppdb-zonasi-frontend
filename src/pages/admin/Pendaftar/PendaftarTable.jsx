@@ -1,4 +1,4 @@
-import { Button, Table } from "@mantine/core";
+import { Badge, Button, Table } from "@mantine/core";
 import { useContext, useState } from "react";
 import { AuthProvider } from "../../../context/AuthContext";
 import { HEADERS_PENDAFTAR } from "../../../constants/TableHeaders";
@@ -26,6 +26,9 @@ const PendaftarTable = ({ pendaftar }) => {
               <td>{pend.nisn}</td>
               <td>{pend.fromSchool}</td>
               <td>{statusPendaftar(pend.status)}</td>
+              <td>
+                <Badge color="yellow">{pend.jarak}</Badge>
+              </td>
               <td className="flex items-center gap-4">
                 <Button
                   variant="outline"
