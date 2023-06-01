@@ -8,7 +8,7 @@ const Auth = () => {
         <div className="mb-5 flex flex-col items-center">
           <h1 className="text-xl">Selamat Datang di </h1>
           <h1 className="text-xl lg:text-3xl text-blue-500 mb-5 font-bold">
-            SMA Negeri 115 Jakarta
+            PPDB Online Sistem Zonasi
           </h1>
           <img className="w-36" src="/assets/images/logo.png" alt="logo" />
         </div>

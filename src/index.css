@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+a.active {
+  @apply bg-blue-500 text-white;
+}
+
+a.tab.active {
+  @apply border-b-[3px] bg-white text-black border-blue-500;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.preview {
+  animation: preview 0.3s ease-out;
+}
+.backdrop {
+  animation: backdrop 0.5s ease-out;
+}
+
+@keyframes preview {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes backdrop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

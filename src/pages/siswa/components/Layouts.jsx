@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "./Header";
-import { Accordion, Button } from "@mantine/core";
 import { Outlet } from "react-router-dom";
 
 const Layouts = () => {
