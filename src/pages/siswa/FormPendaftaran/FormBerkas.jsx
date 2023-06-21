@@ -22,7 +22,6 @@ const FormBerkas = () => {
       ijazah: "",
       raport: "",
       photo: "",
-      photoWithKord: "",
       akte: "",
       kartuKeluarga: "",
       piagamSertifikat: "",
@@ -32,7 +31,6 @@ const FormBerkas = () => {
       ijazah: yup.string().required("ijazah lengkap wajib diisi"),
       raport: yup.string().required("raport wajib diisi"),
       photo: yup.string().required("photo wajib diisi"),
-      photoWithKord: yup.string().required("photo wajib diisi"),
       akte: yup.string().required("akte wajib diisi"),
       kartuKeluarga: yup.string().required("kartu keluarga wajib diisi"),
     }),
@@ -70,21 +68,6 @@ const FormBerkas = () => {
           accept="image/png,image/jpeg,application/pdf"
           icon={<MdImage />}
         />
-        <div>
-          <FileInput
-            error={formik.errors.photoWithKord}
-            onChange={(val) => formik.setFieldValue("photoWithKord", val)}
-            withAsterisk
-            label="Foto Dengan Koordinat"
-            description="Ambil foto bebas dengan koordinat menggunakan aplikasi"
-            placeholder="Upload Files"
-            accept="image/png,image/jpeg,application/pdf"
-            icon={<MdImage />}
-          />
-          <span className="underline text-sm text-blue-500 cursor-pointer">
-            Contoh Foto
-          </span>
-        </div>
         <FileInput
           error={formik.errors.raport}
           onChange={(val) => formik.setFieldValue("raport", val)}

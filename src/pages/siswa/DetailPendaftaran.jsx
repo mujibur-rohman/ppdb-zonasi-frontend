@@ -114,23 +114,6 @@ const DetailPendaftaran = () => {
           )}
         </div>
         <div className="flex flex-col gap-1">
-          <span>Foto Dengan Lokasi</span>
-          {pendaftaran?.document?.photoWithKord ? (
-            <div
-              onClick={() => {
-                setUrlFile(pendaftaran?.document?.photoWithKord);
-                setIsOpenBack(true);
-              }}
-              className="flex items-center text-green-500 gap-1 border-[1px] px-1 cursor-pointer w-fit rounded border-green-500"
-            >
-              <MdOutlineFilePresent className="text-green-500" />
-              <span>Foto Dengan Lokasi</span>
-            </div>
-          ) : (
-            <span>-</span>
-          )}
-        </div>
-        <div className="flex flex-col gap-1">
           <span>Akte</span>
           {pendaftaran?.document?.akte ? (
             <div

@@ -136,8 +136,8 @@ const SchoolSettingEdit = () => {
       kelurahan: profile?.kelurahan,
       kodePos: profile?.kodePos,
       npsn: profile?.npsn,
-      latitude: "",
-      longitude: "",
+      latitude: profile?.latitude,
+      longitude: profile?.longitude,
     },
     enableReinitialize: true,
     validationSchema: yup.object({
@@ -169,7 +169,7 @@ const SchoolSettingEdit = () => {
       for (const val in values) {
         formData.append(val, values[val]);
       }
-      window.location.href = "/admin";
+      // window.location.href = "/admin";
       try {
         await APIProfileSch.update(formData);
       } catch (error) {
@@ -383,8 +383,8 @@ const SchoolSettingEdit = () => {
               }}
               geo={geo}
               markerVal={{
-                lat: formik.values.latitude || 0,
-                lng: formik.values.longitude || 0,
+                lat: formik.values.latitude * 1,
+                lng: formik.values.longitude * 1,
               }}
             />
           </div>
@@ -394,7 +394,7 @@ const SchoolSettingEdit = () => {
           disabled={formik.isSubmitting}
           type="secondary"
         >
-          {formik.isSubmitting ? "Loading.." : "Buat"}
+          {formik.isSubmitting ? "Loading.." : "Update"}
         </Button>
       </form>
     </section>
