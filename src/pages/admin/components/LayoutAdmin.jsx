@@ -12,7 +12,7 @@ const LayoutAdmin = () => {
   const refOutside = useClickOutside(() => setShowMenu(false));
   return (
     <section className="flex min-h-screen w-screen bg-slate-50">
-      <Sidebar />
+      <Sidebar user={user} />
       <div className="text-gray-900 w-full">
         <nav className="shadow h-12 sticky top-0 left-0 right-0 z-50 backdrop-blur flex items-center justify-end px-4 bg-white/75">
           <div
