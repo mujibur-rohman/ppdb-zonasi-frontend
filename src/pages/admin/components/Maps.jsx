@@ -8,8 +8,17 @@ import React, { useEffect, useState } from "react";
 import { GOOGLE_MAPS_API_KEY } from "../../../constants/apikey";
 import { Skeleton } from "@mantine/core";
 import { MdLocationPin } from "react-icons/md";
+import { BASE_URL_API } from "../../../constants/baseUrlAPI";
 
-const Maps = ({ onLoad, onClickMap, onClickPin, geo, markerVal }) => {
+const Maps = ({
+  onLoad,
+  onClickMap,
+  onClickPin,
+  geo,
+  markerVal,
+  markerArray,
+  iconUrl,
+}) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
   });
@@ -30,7 +39,17 @@ const Maps = ({ onLoad, onClickMap, onClickPin, geo, markerVal }) => {
         }}
         onLoad={onLoad}
       >
-        <MarkerF position={markerVal} />
+        {markerVal ? (
+          <MarkerF
+            position={markerVal}
+            icon={`${BASE_URL_API}/icon/pin-black.png`}
+          />
+        ) : null}
+        {markerArray
+          ? markerArray.map((item, i) => (
+              <MarkerF key={i} position={item.geo} icon={item.icon} />
+            ))
+          : null}
       </GoogleMap>
       <div
         onClick={onClickPin}

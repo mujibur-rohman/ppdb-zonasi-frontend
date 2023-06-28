@@ -46,7 +46,6 @@ const Qualification = () => {
       setActiveTab(periodePendaftaran.kuota[0].jurusan.id);
     }
   }, [periodePendaftaran]);
-  //   console.log(periodePendaftaran);
   return (
     <section className="bg-white shadow-md p-3 rounded">
       <div className="p-4 flex flex-col md:flex-row md:justify-between items-start md:items-center">
@@ -108,7 +107,8 @@ const Qualification = () => {
               <tr key={siswa.id}>
                 <td>{i + 1}</td>
                 <td>{siswa.fullName}</td>
-                <td>{siswa.nisn}</td>
+                <td>{siswa.latitude}</td>
+                <td>{siswa.longitude}</td>
                 <td>{siswa.fromSchool}</td>
                 <td>{statusPendaftar(siswa.status)}</td>
                 <td>

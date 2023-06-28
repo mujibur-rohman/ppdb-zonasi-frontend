@@ -28,32 +28,30 @@ const Sidebar = ({ user }) => {
         />
       </div>
       <div className="mt-4 flex flex-col gap-3 relative">
-        {MENUS_SIDEBAR.filter((menu) => menu.role.includes(user.role)).map(
-          (menu, i) => (
-            <NavLink
-              end
-              to={menu?.link}
-              key={i}
-              className={`group flex items-center text-md hover:text-white gap-3.5 font-medium p-2 pr-7 hover:bg-blue-600 rounded-md`}
+        {MENUS_SIDEBAR.map((menu, i) => (
+          <NavLink
+            end
+            to={menu?.link}
+            key={i}
+            className={`group flex items-center text-md hover:text-white gap-3.5 font-medium p-2 pr-7 hover:bg-blue-600 rounded-md`}
+          >
+            <div>{React.createElement(menu?.icon, { size: "20" })}</div>
+            <h2
+              className={`whitespace-pre ${
+                !open && "opacity-0 translate-x-28 overflow-hidden"
+              }`}
             >
-              <div>{React.createElement(menu?.icon, { size: "20" })}</div>
-              <h2
-                className={`whitespace-pre ${
-                  !open && "opacity-0 translate-x-28 overflow-hidden "
-                }`}
-              >
-                {menu?.name}
-              </h2>
-              <h2
-                className={`${
-                  open && "hidden"
-                } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
-              >
-                {menu?.name}
-              </h2>
-            </NavLink>
-          )
-        )}
+              {menu?.name}
+            </h2>
+            <h2
+              className={`${
+                open && "hidden"
+              } absolute left-48 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
+            >
+              {menu?.name}
+            </h2>
+          </NavLink>
+        ))}
       </div>
     </div>
   );

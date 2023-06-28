@@ -138,7 +138,7 @@ const FormPendaftaran = () => {
           },
           1
         );
-        formik.setFieldValue("jarak", `${(dist / 1000).toFixed(2)}`);
+        formik.setFieldValue("jarak", `${dist / 1000}`);
         setLoadingGeo(false);
       }, 2000);
     });

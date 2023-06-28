@@ -26,7 +26,8 @@ export const HEADERS_PENDAFTAR = [
 export const HEADERS_QUALIFICATIONS = [
   { key: 0, label: "No" },
   { key: 1, label: "Nama" },
-  { key: 2, label: "NISN" },
+  { key: 2, label: "Latitude" },
+  { key: 2, label: "Longitude" },
   { key: 3, label: "Asal Sekolah" },
   { key: 4, label: "Status" },
   { key: 5, label: "Jarak" },
