@@ -64,6 +64,15 @@ const Login = () => {
         <Button type="primary" className="rounded-md">
           {formik.isSubmitting ? "Loading" : "Sign In"}
         </Button>
+        <span className="text-sm">
+          Belum punya akun?
+          <span
+            className="text-blue-500 cursor-pointer"
+            onClick={() => navigate("/register")}
+          >
+            register
+          </span>
+        </span>
       </form>
     </div>
   );

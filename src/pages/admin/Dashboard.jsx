@@ -1,27 +1,44 @@
 import ReactApexChart from "react-apexcharts";
+import useSWR from "swr";
+import DashboardAPI, { dashboardEndPoint } from "../../api/dashboard.api";
+import APIJurusan, { jurusanEndPoint } from "../../api/jurusan.api";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const Dashboard = () => {
+  const { data, isLoading } = useSWR(dashboardEndPoint + "/status", (url) =>
+    DashboardAPI.getStatus(url)
+  );
+  const { data: jurusan, isLoadingJurusan } = useSWR(jurusanEndPoint, (url) =>
+    APIJurusan.getJurusan(url)
+  );
+
+  const ctx = useContext(AuthContext);
+
+  if (isLoading || isLoadingJurusan)
+    return <p className="my-5 text-center">Loading..</p>;
+
   const chartData = {
     series: [
       {
-        name: "Marine Sprite",
-        data: [21],
+        name: "Kualifikasi",
+        data: [data.qualify],
       },
       {
-        name: "Striking Calf",
-        data: [32],
+        name: "Diskualifikasi",
+        data: [data.disqualify],
       },
       {
-        name: "Tank Picture",
-        data: [20],
+        name: "Tidak Masuk Seleksi",
+        data: [data.notSelection],
       },
       {
-        name: "Bucket Slope",
-        data: [4],
+        name: "Belum Upload Data",
+        data: [data.notUpload],
       },
       {
-        name: "Reborn Kid",
-        data: [10],
+        name: "Belum Di Verifikasi",
+        data: [data.notVerification],
       },
     ],
     options: {
@@ -29,7 +46,6 @@ const Dashboard = () => {
         type: "bar",
         height: 350,
         stacked: true,
-        stackType: "100%",
       },
       plotOptions: {
         bar: {
@@ -41,7 +57,7 @@ const Dashboard = () => {
         colors: ["#fff"],
       },
       title: {
-        text: "100% Stacked Bar",
+        text: "Pendaftar Perjurusan",
       },
       xaxis: {
         categories: [2008],
@@ -49,7 +65,7 @@ const Dashboard = () => {
       tooltip: {
         y: {
           formatter: function (val) {
-            return val + "K";
+            return val;
           },
         },
       },
@@ -63,12 +79,47 @@ const Dashboard = () => {
       },
     },
   };
+
+  const chartJurusan = {
+    series: [
+      {
+        name: "Total",
+        data: jurusan?.map((jur) => ({
+          x: jur?.name,
+          y: jur?.pendaftarans?.length,
+        })),
+      },
+    ],
+    options: {
+      chart: {
+        type: "bar",
+        height: 380,
+      },
+      xaxis: {
+        type: "category",
+        labels: {
+          formatter: function (val) {
+            return val;
+          },
+        },
+      },
+      title: {
+        text: "Total Pendaftar Masing Masing Jurusan",
+      },
+      tooltip: {
+        x: {
+          formatter: function (val) {
+            return val;
+          },
+        },
+      },
+    },
+  };
   return (
     <main>
       <p className="font-medium text-3xl mb-10">Dashboard</p>
       <div className="bg-white rounded p-5 shadow gap-10 grid grid-cols-2">
         <div>
-          <p className="font-medium">Pendaftar Perjurusan</p>
           <ReactApexChart
             options={chartData.options}
             series={chartData.series}
@@ -76,10 +127,9 @@ const Dashboard = () => {
           />
         </div>
         <div>
-          <p className="font-medium">Pendaftar Perjurusan</p>
           <ReactApexChart
-            options={chartData.options}
-            series={chartData.series}
+            options={chartJurusan.options}
+            series={chartJurusan.series}
             type="bar"
           />
         </div>

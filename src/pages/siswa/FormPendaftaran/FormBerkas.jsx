@@ -63,7 +63,6 @@ const FormBerkas = () => {
           onChange={(val) => formik.setFieldValue("photo", val)}
           withAsterisk
           label="Foto"
-          description="Background merah"
           placeholder="Upload Files"
           accept="image/png,image/jpeg,application/pdf"
           icon={<MdImage />}
@@ -105,7 +104,6 @@ const FormBerkas = () => {
           icon={<MdImage />}
         />
         <FileInput
-          description="Tidak Wajib"
           onChange={(val) => formik.setFieldValue("piagamSertifikat", val)}
           label="Piagam/Sertifikat"
           placeholder="Upload Files"
@@ -113,7 +111,7 @@ const FormBerkas = () => {
           icon={<MdImage />}
         />
       </div>
-      <div className="flex gap-2 justify-end">
+      <div className="flex gap-2 justify-end my-5">
         <Button
           type="primary"
           color="yellow"

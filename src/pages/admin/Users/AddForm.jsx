@@ -84,7 +84,6 @@ const AddForm = ({ close, mutateUsers }) => {
             placeholder="Select Role"
             value={roleSelect}
             onChange={(val) => {
-              console.log(val);
               formik.setFieldValue("role", val);
             }}
             data={[

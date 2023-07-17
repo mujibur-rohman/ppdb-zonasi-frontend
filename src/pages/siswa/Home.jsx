@@ -91,68 +91,29 @@ const Home = () => {
       <div>
         <span className="font-medium mb-2 block text-lg">Detail Kuota</span>
         <div className="grid grid-cols-1 md:grid-cols-2 items-start gap-3">
-          <Accordion variant="contained" className="bg-white">
-            <Accordion.Item value="photos">
-              <Accordion.Control>
-                <span className="font-medium">IPA</span>
-              </Accordion.Control>
-              <Accordion.Panel>
-                <table className="flex flex-col gap-3">
-                  <tbody>
-                    <tr>
-                      <td className="md:w-36 w-28 font-medium">Kuota</td>
-                      <td>6</td>
-                    </tr>
-                    <tr>
-                      <td className="md:w-36 w-28 font-medium">Pendaftar</td>
-                      <td>6</td>
-                    </tr>
-                    <tr>
-                      <td className="md:w-36 w-28 font-medium">Kualifikasi</td>
-                      <td>6</td>
-                    </tr>
-                    <tr>
-                      <td className="md:w-36 w-28 font-medium">
-                        Diskualifikasi
-                      </td>
-                      <td>6</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </Accordion.Panel>
-            </Accordion.Item>
-          </Accordion>
-          <Accordion variant="contained" className="bg-white">
-            <Accordion.Item value="photos">
-              <Accordion.Control>
-                <span className="font-medium">IPA</span>
-              </Accordion.Control>
-              <Accordion.Panel>
-                <table className="flex flex-col gap-3">
-                  <tbody>
-                    <tr>
-                      <td className="md:w-36 w-28 font-medium">Kuota</td>
-                      <td>6</td>
-                    </tr>
-                    <tr>
-                      <td className="md:w-36 w-28 font-medium">Pendaftar</td>
-                      <td>6</td>
-                    </tr>
-                    <tr>
-                      <td className="md:w-36 w-28 font-medium">Kualifikasi</td>
-                      <td>6</td>
-                    </tr>
-                    <tr>
-                      <td className="md:w-36 w-28 font-medium">
-                        Diskualifikasi
-                      </td>
-                      <td>6</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </Accordion.Panel>
-            </Accordion.Item>
-          </Accordion>
+          {ctx?.periodePendaftaran?.kuota?.map((item) => (
+            <Accordion variant="contained" className="bg-white">
+              <Accordion.Item value="photos">
+                <Accordion.Control>
+                  <span className="font-medium">{item.jurusan.name}</span>
+                </Accordion.Control>
+                <Accordion.Panel>
+                  <table className="flex flex-col gap-3">
+                    <tbody>
+                      <tr>
+                        <td className="md:w-36 w-28 font-medium">Kuota</td>
+                        <td>{item.kuota}</td>
+                      </tr>
+                      <tr>
+                        <td className="md:w-36 w-28 font-medium">Pendaftar</td>
+                        <td>6</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          ))}
         </div>
       </div>
     </>

@@ -11,6 +11,7 @@ import APIJurusan, { jurusanEndPoint } from "../../../api/jurusan.api";
 import { AuthProvider } from "../../../context/AuthContext";
 import APIPendaftaran, { pendaftaranEndPoint } from "../../../api/pendaftaran";
 import { Navigate, useNavigate } from "react-router-dom";
+import dijkstraDistance from "../../../lib/dijkstraFormula";
 
 const FormPendaftaran = () => {
   const [geo, setGeo] = useState({});
@@ -122,23 +123,17 @@ const FormPendaftaran = () => {
     },
   });
   // Hitung jarak
+
   const countDistance = async () => {
     await navigator.geolocation.getCurrentPosition(async (pos) => {
       setLoadingGeo(true);
       setGeo({ lat: pos.coords.latitude, lng: pos.coords.longitude });
       await setTimeout(() => {
-        const dist = getDistance(
-          {
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
-          },
-          {
-            latitude: "-6.252006",
-            longitude: "106.826969",
-          },
-          1
+        const dist = dijkstraDistance(
+          [-6.140751, 106.95488],
+          [ctx.school.latitude * 1, ctx.school.longitude * 1]
         );
-        formik.setFieldValue("jarak", `${dist / 1000}`);
+        formik.setFieldValue("jarak", `${dist.toFixed(4)}`);
         setLoadingGeo(false);
       }, 2000);
     });

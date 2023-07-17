@@ -40,10 +40,6 @@ const Header = () => {
               ref={refOutside}
               className={`absolute transition-all bg-white cursor-pointer z-10 right-2 top-12 border-[1px] rounded`}
             >
-              <li className="px-4 py-2 gap-2 hover:bg-slate-100 flex items-center">
-                <MdPermIdentity />
-                Profile
-              </li>
               <li
                 onClick={() => {
                   Cookies.remove("accessToken");
